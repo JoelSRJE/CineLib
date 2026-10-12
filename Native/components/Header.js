@@ -2,20 +2,56 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { LockIcon, NotePencilIcon } from "phosphor-react-native";
 import CineLib from "../assets/Logo/CineLib-logo.png";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Header() {
+  const navigation = useNavigation();
+  const userOptions = [
+    {
+      id: 1,
+      name: "Login",
+      screen: "Login",
+      icon: LockIcon,
+    },
+    {
+      id: 2,
+      name: "Register",
+      screen: "Register",
+      icon: NotePencilIcon,
+    },
+  ];
+
+  const goTo = (screen) => {
+    navigation.navigate(screen);
+  };
+
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <Image source={CineLib} style={styles.logo} contentFit="contain" />
+        <Pressable
+          onPress={() => goTo("Home")}
+          style={({ pressed }) => [pressed && styles.pressed]}
+        >
+          <Image source={CineLib} style={styles.logo} contentFit="contain" />
+        </Pressable>
 
         <View style={styles.buttonContainer}>
-          <Pressable style={styles.button}>
-            <LockIcon size={30} />
-          </Pressable>
-          <Pressable style={styles.button}>
-            <NotePencilIcon size={30} />
-          </Pressable>
+          {userOptions.map((option) => {
+            const Icon = option.icon;
+
+            return (
+              <Pressable
+                key={option.id}
+                onPress={() => goTo(option.screen)}
+                style={({ pressed }) => [
+                  styles.button,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <Icon size={30} />
+              </Pressable>
+            );
+          })}
         </View>
       </View>
       <View style={styles.bottomBorder} />
@@ -61,5 +97,10 @@ const styles = StyleSheet.create({
     height: 1.5,
     backgroundColor: "#53535352",
     marginHorizontal: 15,
+  },
+
+  pressed: {
+    transform: [{ scale: 0.9 }],
+    opacity: 0.5,
   },
 });

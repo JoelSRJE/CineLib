@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
-import Homepage from "./screens/Homepage";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
 import { useFonts } from "expo-font";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -15,13 +16,23 @@ import {
   NunitoSans_600SemiBold,
   NunitoSans_700Bold,
 } from "@expo-google-fonts/nunito-sans";
-import Navbar from "./components/Navbar";
+
 import { useEffect, useState } from "react";
+
 import getMovieData from "./api/GetData";
+
+import Homepage from "./screens/Homepage";
+import Loginpage from "./screens/Loginpage";
+import Registerpage from "./screens/Registerpage";
+import Favouritespage from "./screens/Favouritespage";
+import Contentpage from "./screens/Contentpage";
+import Userpage from "./screens/Userpage";
+import CineDetailpage from "./screens/CineDetailpage";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularSeries, setPopularSeries] = useState([]);
   const [trending, setTrending] = useState([]);
@@ -79,15 +90,46 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <Header />
       <Stack.Navigator>
         <Stack.Screen
           name="Home"
           component={Homepage}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="Login"
+          component={Loginpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Registerpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Content"
+          component={Contentpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Favs"
+          component={Favouritespage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="User"
+          component={Userpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={CineDetailpage}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
 
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} />
     </NavigationContainer>
   );
 }

@@ -1,43 +1,58 @@
-import { StyleSheet } from "react-native";
-import { HouseIcon } from "phosphor-react-native";
+import { StyleSheet, Text, View } from "react-native";
+import {
+  FilmReelIcon,
+  FilmStripIcon,
+  HeartIcon,
+  UserIcon,
+} from "phosphor-react-native";
 import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
 import NavItem from "./NavItem";
 
-export default function Navbar() {
+export default function Navbar({ isLoggedIn }) {
   const navigation = useNavigation();
   const navItems = [
     {
       id: 1,
-      name: "Home",
-      icon: HouseIcon,
+      name: "Movies",
+      screen: "Content",
+      icon: FilmReelIcon,
     },
     {
       id: 2,
-      name: "Home",
-      icon: HouseIcon,
+      name: "Series",
+      screen: "Content",
+      icon: FilmStripIcon,
     },
+
     {
       id: 3,
-      name: "Home",
-      icon: HouseIcon,
+      name: "Favs",
+      screen: "Favs",
+      icon: HeartIcon,
+    },
+    {
+      id: 4,
+      name: "User",
+      screen: "User",
+      icon: UserIcon,
     },
   ];
 
-  function goTo(screen) {
+  const goTo = (screen) => {
     navigation.navigate(screen);
-  }
+  };
 
   return (
     <BlurView intensity={80} tint="prominent" style={styles.navbarContainer}>
-      {navItems.map((item) => (
-        <NavItem
-          key={item.id}
-          item={item}
-          onPress={() => {
-            goTo(item.screen);
-          }}
-        />
+      {navItems.map((item, index) => (
+        <View key={item.id} style={styles.navItemContainer}>
+          {index === navItems.length - 2 && (
+            <Text style={styles.separator}>|</Text>
+          )}
+
+          <NavItem item={item} onPress={() => goTo(item.screen)} />
+        </View>
       ))}
     </BlurView>
   );
@@ -58,5 +73,18 @@ const styles = StyleSheet.create({
     bottom: 20,
     right: 16,
     left: 16,
+  },
+
+  navItemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  separator: {
+    position: "absolute",
+    right: 50,
+    bottom: 4,
+    fontSize: 40,
+    color: "rgba(156, 156, 156, 0.4)",
   },
 });
