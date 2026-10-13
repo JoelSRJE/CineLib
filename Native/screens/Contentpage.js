@@ -1,7 +1,7 @@
 import { StyleSheet, View, Text } from "react-native";
 import GridBackground from "../components/GridBackground";
 
-export default function Contentpage() {
+export default function Contentpage({ media }) {
   return (
     <View style={styles.container}>
       <GridBackground />

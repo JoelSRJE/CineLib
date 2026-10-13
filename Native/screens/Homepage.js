@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import GridBackground from "../components/GridBackground";
 import NewsHero from "../components/NewsHero";
 import Carousel from "../components/Carousel";
@@ -7,12 +13,12 @@ import { useEffect, useState } from "react";
 import getMovieData from "../api/GetData";
 
 export default function Homepage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [newMovies, setNewMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularSeries, setPopularSeries] = useState([]);
-  const [trending, setTrending] = useState([]);
-  const [movieGenres, setMovieGenres] = useState([]);
-  const [seriesGenres, setSeriesGenres] = useState([]);
+  const [trendingWeekly, setTrendingWeekly] = useState([]);
+  const [trendingDaily, setTrendingDaily] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
@@ -22,32 +28,52 @@ export default function Homepage() {
           newMoviesData,
           moviesData,
           seriesData,
-          trendingData,
-          movieGenresData,
-          seriesGenreData,
+          trendingDataWeek,
+          trendingDataDaily,
         ] = await Promise.all([
           getMovieData("/movie/now_playing"),
           getMovieData("/movie/popular"),
           getMovieData("/tv/popular"),
           getMovieData("/trending/all/week"),
-          getMovieData("/genre/movie/list"),
-          getMovieData("/genre/tv/list"),
+          getMovieData("/trending/all/day"),
         ]);
 
         setNewMovies(newMoviesData.results);
         setPopularMovies(moviesData.results);
         setPopularSeries(seriesData.results);
-        setTrending(trendingData.results);
-        setMovieGenres(movieGenresData.results);
-        setSeriesGenres(seriesGenreData);
+        setTrendingWeekly(trendingDataWeek.results);
+        setTrendingDaily(trendingDataDaily.results);
       } catch (error) {
         console.error("Could not load TMDB data: ", error);
         setErrorMessage("Couldn't get movie- and series data from database!");
+      } finally {
+        setIsLoading(false);
       }
     }
 
     loadData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <GridBackground />
+
+        <View style={styles.loadingContent}>
+          <ActivityIndicator size="large" color="#589572" />
+          <Text style={styles.loadingText}>Loading CineLib...</Text>
+        </View>
+      </View>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>{errorMessage}</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -74,6 +100,15 @@ export default function Homepage() {
       {/* Slut:  */}
 
       {/* Start: Content Carousels 2 */}
+      <View style={styles.carouselWrapper}>
+        <Text style={styles.carouselTitle}>Trending Daily</Text>
+        <Carousel media={trendingDaily} />
+      </View>
+
+      <View style={[styles.carouselWrapper, styles.space]}>
+        <Text style={styles.carouselTitle}>Trending Weekly</Text>
+        <Carousel media={trendingWeekly} />
+      </View>
       {/* Slut: Content Carousels 2 */}
 
       {/* Start: Contact Us */}
@@ -99,5 +134,28 @@ const styles = StyleSheet.create({
     color: "#589572",
     fontFamily: Fonts.heading,
     letterSpacing: 0.6,
+  },
+
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  loadingContent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 16,
+  },
+
+  loadingText: {
+    fontSize: 18,
+    color: "#589572",
+    fontFamily: Fonts.heading,
+  },
+
+  space: {
+    marginBottom: 90,
   },
 });
