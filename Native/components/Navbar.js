@@ -44,7 +44,7 @@ export default function Navbar({ isLoggedIn }) {
   };
 
   return (
-    <BlurView intensity={80} tint="prominent" style={styles.navbarContainer}>
+    <BlurView intensity={90} tint="prominent" style={styles.navbarContainer}>
       {navItems.map((item, index) => (
         <View key={item.id} style={styles.navItemContainer}>
           {index === navItems.length - 2 && (
@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
   navbarContainer: {
     height: 65,
     borderWidth: 1,
-    borderColor: "rgba(221, 221, 221, 0.8)",
+    borderColor: "rgba(88, 149, 114, 0.9)",
     borderRadius: 50,
-    backgroundColor: "rgba(221, 221, 221, 0.7)",
+    backgroundColor: "rgba(221, 221, 221, 1)",
     overflow: "hidden",
     flexDirection: "row",
     alignItems: "center",
