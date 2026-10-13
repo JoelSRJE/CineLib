@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import { useFonts } from "expo-font";
@@ -32,6 +32,8 @@ import CineDetailpage from "./screens/CineDetailpage";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const dots = Array.from({ length: 120 }, (_, index) => index);
+
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [popularMovies, setPopularMovies] = useState([]);
   const [popularSeries, setPopularSeries] = useState([]);
@@ -89,56 +91,79 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Header />
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Homepage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Loginpage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={Registerpage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Content"
-          component={Contentpage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Favs"
-          component={Favouritespage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="User"
-          component={Userpage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Detail"
-          component={CineDetailpage}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
+    <View style={styles.container}>
+      <View style={styles.dotGrid} pointerEvents="none">
+        {dots.map((dot) => (
+          <View key={dot} style={styles.dot} />
+        ))}
+      </View>
 
-      <Navbar isLoggedIn={isLoggedIn} />
-    </NavigationContainer>
+      <NavigationContainer>
+        <Header />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Homepage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Loginpage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Registerpage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Content"
+            component={Contentpage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Favs"
+            component={Favouritespage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="User"
+            component={Userpage}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Detail"
+            component={CineDetailpage}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+
+        <Navbar isLoggedIn={isLoggedIn} />
+      </NavigationContainer>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+
+  dotGrid: {
+    position: "absolute",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    alignContent: "flex-start",
+    paddingTop: 20,
+  },
+
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#589572",
+    opacity: 0.2,
+    margin: 14,
   },
 });

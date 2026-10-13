@@ -1,9 +1,14 @@
 import { StyleSheet, View, Text } from "react-native";
+import RegisterForm from "../components/forms/RegisterForm";
+import GridBackground from "../components/GridBackground";
 
 export default function Registerpage() {
   return (
     <View style={styles.container}>
-      <Text>Register Page</Text>
+      <GridBackground />
+      <View style={styles.loginWrapper}>
+        <RegisterForm />
+      </View>
     </View>
   );
 }
@@ -11,5 +16,13 @@ export default function Registerpage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  loginWrapper: {
+    boxShadow: "0 1px 6px rgba(0, 0, 0, 0.2)",
+    borderRadius: 6,
+    marginBottom: 20,
   },
 });
