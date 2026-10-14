@@ -1,5 +1,8 @@
 import { Image } from "expo-image";
 import { StyleSheet, View, Text } from "react-native";
+import Placeholder from "../assets/placeholder/placeholder.png";
+import Fonts from "../constants/Fonts";
+import { StarIcon } from "phosphor-react-native";
 
 export default function MediaCard({ media }) {
   const title = media.title ?? media.name;
@@ -16,15 +19,26 @@ export default function MediaCard({ media }) {
             contentFit="cover"
           />
         ) : (
-          <View style={[styles.poster, styles.noPoster]}>
-            <Text>Ingen bild tillgänglig</Text>
+          <View style={styles.noPoster}>
+            <Image
+              source={Placeholder}
+              style={styles.poster}
+              contentFit="contain"
+            />
           </View>
         )}
       </View>
 
-      <Text style={styles.title} numberOfLines={2}>
-        {title}
-      </Text>
+      <View style={styles.ratingContainer}>
+        <StarIcon size={14} color="yellow" weight="fill" />
+        <Text style={styles.rating}>{media.vote_average.toFixed(1)}</Text>
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text style={styles.title} numberOfLines={2}>
+          {title}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -48,15 +62,43 @@ const styles = StyleSheet.create({
   },
 
   noPoster: {
-    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+  },
+
+  ratingContainer: {
+    position: "absolute",
+    top: 8,
+    right: 12,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#333333",
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+
+  rating: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+
+  titleContainer: {
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
   },
 
   title: {
-    position: "absolute",
-    color: "white",
-    marginTop: 8,
-    fontSize: 14,
+    fontSize: 16,
+    color: "#fff",
+    padding: 6,
+    fontFamily: Fonts.bodyBold,
+    textAlign: "center",
   },
 });

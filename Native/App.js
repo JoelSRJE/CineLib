@@ -17,9 +17,7 @@ import {
   NunitoSans_700Bold,
 } from "@expo-google-fonts/nunito-sans";
 
-import { useEffect, useState } from "react";
-
-import getMovieData from "./api/GetData";
+import { useState } from "react";
 
 import Homepage from "./screens/Homepage";
 import Loginpage from "./screens/Loginpage";
