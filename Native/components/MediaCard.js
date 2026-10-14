@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
 import Placeholder from "../assets/placeholder/placeholder.png";
 import Fonts from "../constants/Fonts";
-import { StarIcon } from "phosphor-react-native";
+import { StarIcon, HeartIcon } from "phosphor-react-native";
 
 export default function MediaCard({ media }) {
   const title = media.title ?? media.name;
@@ -33,6 +33,10 @@ export default function MediaCard({ media }) {
         <StarIcon size={14} color="yellow" weight="fill" />
         <Text style={styles.rating}>{media.vote_average.toFixed(1)}</Text>
       </View>
+
+      <Pressable style={styles.favContainer}>
+        <HeartIcon size={14} color="#fc4848" weight="fill" />
+      </Pressable>
 
       <View style={styles.titleContainer}>
         <Text style={styles.title} numberOfLines={2}>
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
   ratingContainer: {
     position: "absolute",
     top: 8,
-    right: 12,
+    right: 4,
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     flexDirection: "row",
     alignItems: "center",
@@ -83,6 +87,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     color: "#FFFFFF",
+  },
+
+  favContainer: {
+    position: "absolute",
+    top: 8,
+    left: 4,
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 8,
   },
 
   titleContainer: {

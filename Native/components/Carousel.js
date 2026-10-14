@@ -13,8 +13,9 @@ import {
   CaretCircleLeftIcon,
   CaretCircleRightIcon,
 } from "phosphor-react-native";
+import Fonts from "../constants/Fonts";
 
-export default function Carousel({ media }) {
+export default function Carousel({ media, errorMessage }) {
   const { width } = useWindowDimensions();
 
   const visibleMovies = width >= 600 ? 3 : 2;
@@ -35,6 +36,15 @@ export default function Carousel({ media }) {
 
     setActiveIndex(index);
   };
+
+  if (errorMessage) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>{errorMessage}</Text>
+        <Text style={styles.loadingText}>Component: NewsHero</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -177,5 +187,20 @@ const styles = StyleSheet.create({
 
   arrowButton: {
     padding: 4,
+  },
+
+  loadingContent: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 16,
+  },
+
+  loadingText: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "#589572",
+    fontFamily: Fonts.heading,
+    marginTop: 20,
   },
 });

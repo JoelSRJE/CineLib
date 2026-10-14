@@ -45,7 +45,9 @@ export default function Homepage() {
         setTrendingDaily(trendingDataDaily.results);
       } catch (error) {
         console.error("Could not load TMDB data: ", error);
-        setErrorMessage("Couldn't get movie- and series data from database!");
+        setErrorMessage(
+          `${error}\n\nCouldn't get movie- or series data from database!`,
+        );
       } finally {
         setIsLoading(false);
       }
@@ -67,32 +69,24 @@ export default function Homepage() {
     );
   }
 
-  if (errorMessage) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>{errorMessage}</Text>
-      </View>
-    );
-  }
-
   return (
     <ScrollView style={styles.container}>
       <GridBackground />
       {/* Start: Hero Posters */}
       <View style={styles.carouselContainer}>
-        <NewsHero newMovies={newMovies} />
+        <NewsHero newMovies={newMovies} errorMessage={errorMessage} />
       </View>
       {/* Start: Hero Posters */}
 
       {/* Start: Content Carousels 1 */}
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Popular Movies</Text>
-        <Carousel media={popularMovies} />
+        <Carousel media={popularMovies} errorMessage={errorMessage} />
       </View>
 
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Popular Series</Text>
-        <Carousel media={popularSeries} />
+        <Carousel media={popularSeries} errorMessage={errorMessage} />
       </View>
       {/* Slut: Content Carousels 1 */}
 
@@ -102,12 +96,12 @@ export default function Homepage() {
       {/* Start: Content Carousels 2 */}
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Trending Daily</Text>
-        <Carousel media={trendingDaily} />
+        <Carousel media={trendingDaily} errorMessage={errorMessage} />
       </View>
 
       <View style={[styles.carouselWrapper, styles.space]}>
         <Text style={styles.carouselTitle}>Trending Weekly</Text>
-        <Carousel media={trendingWeekly} />
+        <Carousel media={trendingWeekly} errorMessage={errorMessage} />
       </View>
       {/* Slut: Content Carousels 2 */}
 
@@ -139,7 +133,6 @@ const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
   },
 
   loadingContent: {
@@ -150,6 +143,7 @@ const styles = StyleSheet.create({
   },
 
   loadingText: {
+    textAlign: "center",
     fontSize: 18,
     color: "#589572",
     fontFamily: Fonts.heading,
