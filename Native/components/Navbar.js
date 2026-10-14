@@ -16,12 +16,14 @@ export default function Navbar({ isLoggedIn }) {
       id: 1,
       name: "Movies",
       screen: "Content",
+      mediaType: "movie",
       icon: FilmReelIcon,
     },
     {
       id: 2,
       name: "Series",
       screen: "Content",
+      mediaType: "tv",
       icon: FilmStripIcon,
     },
 
@@ -39,8 +41,14 @@ export default function Navbar({ isLoggedIn }) {
     },
   ];
 
-  const goTo = (screen) => {
-    navigation.navigate(screen);
+  const goTo = (item) => {
+    if (item.mediaType) {
+      navigation.navigate(item.screen, {
+        mediaType: item.mediaType,
+      });
+    } else {
+      navigation.navigate(item.screen);
+    }
   };
 
   return (
@@ -51,7 +59,7 @@ export default function Navbar({ isLoggedIn }) {
             <Text style={styles.separator}>|</Text>
           )}
 
-          <NavItem item={item} onPress={() => goTo(item.screen)} />
+          <NavItem item={item} onPress={() => goTo(item)} />
         </View>
       ))}
     </BlurView>

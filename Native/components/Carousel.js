@@ -60,7 +60,7 @@ export default function Carousel({ media }) {
                     uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
                   }}
                   style={styles.poster}
-                  resizeMode="cover"
+                  contentFit="cover"
                 />
               ) : (
                 <View style={[styles.poster, styles.noPoster]}>
