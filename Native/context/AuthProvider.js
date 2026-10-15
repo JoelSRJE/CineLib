@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
+import logoutUser from "../api/LoginUser";
 
 const AuthContext = createContext(null);
 const BASE_URL = process.env.EXPO_PUBLIC_SPRING_API_URL;
@@ -63,10 +64,27 @@ export function AuthProvider({ children }) {
   };
 
   const logout = async () => {
-    await SecureStore.deleteItemAsync("authToken");
+    let dbLogout = false;
 
-    setUser(null);
-    setAuthToken(null);
+    try {
+      if (user && authToken) {
+        await logoutUser({
+          email: user.email,
+          authToken,
+        });
+
+        dbLogout = true;
+      }
+    } catch (error) {
+      console.error("DB logout failed: ", error);
+    } finally {
+      await SecureStore.deleteItemAsync("authToken");
+
+      setUser(null);
+      setAuthToken(null);
+    }
+
+    return dbLogout;
   };
 
   return (

@@ -10,9 +10,11 @@ import CineLib from "../assets/Logo/CineLib-logo.png";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../context/AuthProvider";
 import Fonts from "../constants/Fonts";
+import { useMessage } from "../context/MessageProvider";
 
 export default function Header() {
   const { isLoggedIn, user, logout } = useAuth();
+  const { showMessage } = useMessage();
 
   const navigation = useNavigation();
   const userOptions = [
@@ -43,7 +45,20 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    await logout();
+    const successfullyLoggedOut = false;
+
+    const response = await logout();
+
+    if (response === true) {
+      showMessage("success", "You have logged out!");
+    } else {
+      showMessage(
+        "warning",
+        "Logged out locally, but server could not be updated",
+        5000,
+      );
+    }
+
     navigation.navigate("Landing");
   };
 
@@ -70,9 +85,11 @@ export default function Header() {
             </Pressable>
           ) : null}
 
-          <View style={styles.usernameContainer}>
-            <Text style={styles.username}>Welcome {user?.username}</Text>
-          </View>
+          {user && (
+            <View style={styles.usernameContainer}>
+              <Text style={styles.username}>Welcome {user?.username}</Text>
+            </View>
+          )}
         </View>
 
         <View style={styles.buttonContainer}>
@@ -119,7 +136,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   wrapper: {
-    flexDirection: "col",
+    flexDirection: "column",
   },
 
   container: {

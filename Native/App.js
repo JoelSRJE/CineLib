@@ -27,6 +27,8 @@ import CineDetailpage from "./screens/CineDetailpage";
 import Landingpage from "./screens/Landingpage";
 
 import { useAuth, AuthProvider } from "./context/AuthProvider";
+import Message from "./components/Message";
+import MessageProvider from "./context/MessageProvider";
 
 const Stack = createNativeStackNavigator();
 
@@ -115,15 +117,17 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <View style={styles.container}>
-        <View style={styles.dotGrid} pointerEvents="none">
-          {dots.map((dot) => (
-            <View key={dot} style={styles.dot} />
-          ))}
-        </View>
+      <MessageProvider>
+        <View style={styles.container}>
+          <View style={styles.dotGrid} pointerEvents="none">
+            {dots.map((dot) => (
+              <View key={dot} style={styles.dot} />
+            ))}
+          </View>
 
-        <AppNav />
-      </View>
+          <AppNav />
+        </View>
+      </MessageProvider>
     </AuthProvider>
   );
 }

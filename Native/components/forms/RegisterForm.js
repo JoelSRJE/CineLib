@@ -11,9 +11,12 @@ import { NotePencilIcon } from "phosphor-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import RegisterUser from "../../api/RegisterUser";
+import { useMessage } from "../../context/MessageProvider";
 
 export default function RegisterForm() {
   const navigation = useNavigation();
+
+  const { showMessage } = useMessage();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -46,14 +49,14 @@ export default function RegisterForm() {
       });
 
       setSuccessMessage("Your account was created successfully!");
+      showMessage("success", "Account created, please sign in!");
 
       setUsername("");
       setEmail("");
       setPassword("");
+      navigation.navigate("login");
     } catch (error) {
-      setErrorMessage(
-        error.message || "Registration failed. Please try again.",
-      );
+      setErrorMessage("Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }

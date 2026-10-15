@@ -11,8 +11,11 @@ import Carousel from "../components/Carousel";
 import Fonts from "../constants/Fonts";
 import { useEffect, useState } from "react";
 import getMovieData from "../api/GetData";
+import { useMessage } from "../context/MessageProvider";
 
 export default function Homepage() {
+  const { showMessage } = useMessage();
+
   const [isLoading, setIsLoading] = useState(true);
   const [newMovies, setNewMovies] = useState([]);
   const [popularMovies, setPopularMovies] = useState([]);
@@ -43,11 +46,14 @@ export default function Homepage() {
         setPopularSeries(seriesData.results);
         setTrendingWeekly(trendingDataWeek.results);
         setTrendingDaily(trendingDataDaily.results);
+
+        showMessage("success", "Content loaded!");
       } catch (error) {
         console.error("Could not load TMDB data: ", error);
         setErrorMessage(
           `${error}\n\nCouldn't get movie- or series data from database!`,
         );
+        showMessage("error", "Failed to fetch content..");
       } finally {
         setIsLoading(false);
       }

@@ -10,11 +10,13 @@ import Fonts from "../../constants/Fonts";
 import { useNavigation } from "@react-navigation/native";
 import { LockIcon } from "phosphor-react-native";
 import { useState } from "react";
-import LoginUser from "../../api/LoginUser";
+import { LoginUser } from "../../api/LoginUser";
 import { useAuth } from "../../context/AuthProvider";
+import { useMessage } from "../../context/MessageProvider";
 
 export default function LoginForm() {
   const { login } = useAuth();
+  const { showMessage } = useMessage();
 
   const navigation = useNavigation();
 
@@ -49,9 +51,12 @@ export default function LoginForm() {
       login(data.user, data.token);
 
       setSuccessMessage("Login successful!");
+
+      showMessage("success", "You've successfully logged in!");
       navigation.navigate("Home");
     } catch (error) {
-      setErrorMessage(error.message || "Something went wrong!");
+      setErrorMessage("Failed to login!");
+      showMessage("error", "Something went wrong, try again!");
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 const BASE_URL = process.env.EXPO_PUBLIC_SPRING_API_URL;
 
-export default async function LoginUser({ email, password }) {
+export async function LoginUser({ email, password }) {
   const response = await fetch(`${BASE_URL}/user/login`, {
     method: "POST",
     headers: {
@@ -19,4 +19,23 @@ export default async function LoginUser({ email, password }) {
   }
 
   return response.json();
+}
+
+export default async function logoutUser({ email, authToken }) {
+  const response = await fetch(`${BASE_URL}/user/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+
+    throw new Error(message || "Failed to log out on the server!");
+  }
+
+  return response.text();
 }
