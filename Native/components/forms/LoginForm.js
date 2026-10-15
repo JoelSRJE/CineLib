@@ -1,13 +1,55 @@
-import { StyleSheet, View, Text, TextInput, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import Fonts from "../../constants/Fonts";
 import { useNavigation } from "@react-navigation/native";
 import { LockIcon } from "phosphor-react-native";
+import { useState } from "react";
+import LoginUser from "../../api/LoginUser";
 
 export default function LoginForm() {
   const navigation = useNavigation();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const goTo = (screen) => {
     navigation.navigate(screen);
+  };
+
+  const handleLogin = async () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (!email.trim() || !password) {
+      setErrorMessage("Please enter your email and password!");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const user = await LoginUser({
+        email: email.trim(),
+        password,
+      });
+
+      console.log("Login response:", user);
+      setSuccessMessage("Login successful!");
+    } catch (error) {
+      setErrorMessage(error.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,23 +61,51 @@ export default function LoginForm() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input}></TextInput>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          editable={!loading}
+          placeholder="John@doe.com"
+        />
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input}></TextInput>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          editable={!loading}
+          placeholder="**********"
+        />
       </View>
 
       <Pressable
-        style={({ pressed }) => [styles.submitBtn, pressed && styles.pressed]}
+        onPress={handleLogin}
+        disabled={loading}
+        style={({ pressed }) => [
+          styles.submitBtn,
+          pressed && styles.pressed,
+          loading && styles.disabled,
+        ]}
       >
-        {({ pressed }) => (
-          <Text style={[styles.btnText, pressed && styles.btnTextPressed]}>
-            Sign In
-          </Text>
+        {loading ? (
+          <ActivityIndicator color="#589572" />
+        ) : (
+          <Text style={styles.btnText}>Sign In</Text>
         )}
       </Pressable>
+
+      {errorMessage ? (
+        <Text style={{ color: "red" }}>{errorMessage}</Text>
+      ) : null}
+
+      {successMessage ? (
+        <Text style={{ color: "#589572" }}>{successMessage}</Text>
+      ) : null}
 
       <View style={styles.registerInfoContainer}>
         <Text style={styles.registerInfoText}>No account yet?</Text>
@@ -113,6 +183,20 @@ const styles = StyleSheet.create({
 
   btnTextPressed: {
     color: "#fff",
+  },
+
+  disabled: {
+    opacity: 0.6,
+  },
+
+  errorText: {
+    color: "#c62828",
+    fontFamily: Fonts.body,
+  },
+
+  successText: {
+    color: "#2e7d32",
+    fontFamily: Fonts.body,
   },
 
   registerInfoContainer: {

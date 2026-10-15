@@ -1,13 +1,62 @@
-import { StyleSheet, View, Text, TextInput, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import Fonts from "../../constants/Fonts";
 import { NotePencilIcon } from "phosphor-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import RegisterUser from "../../api/RegisterUser";
 
 export default function RegisterForm() {
   const navigation = useNavigation();
 
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
   const goTo = (screen) => {
     navigation.navigate(screen);
+  };
+
+  const handleRegister = async () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (!username.trim() || !email.trim() || !password) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await RegisterUser({
+        username: username.trim(),
+        email: email.trim(),
+        password,
+      });
+
+      setSuccessMessage("Your account was created successfully!");
+
+      setUsername("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      setErrorMessage(
+        error.message || "Registration failed. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,28 +68,62 @@ export default function RegisterForm() {
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Name</Text>
-        <TextInput style={styles.input}></TextInput>
+        <TextInput
+          style={styles.input}
+          value={username}
+          onChangeText={setUsername}
+          editable={!loading}
+          placeholder="Choose a username"
+        ></TextInput>
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input}></TextInput>
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          editable={!loading}
+          placeholder="Enter your email"
+        ></TextInput>
       </View>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Password</Text>
-        <TextInput style={styles.input}></TextInput>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          editable={!loading}
+          placeholder="Choose a password"
+        ></TextInput>
       </View>
 
       <Pressable
-        style={({ pressed }) => [styles.submitBtn, pressed && styles.pressed]}
+        onPress={handleRegister}
+        disabled={loading}
+        style={({ pressed }) => [
+          styles.submitBtn,
+          pressed && styles.pressed,
+          loading && styles.disabled,
+        ]}
       >
-        {({ pressed }) => (
-          <Text style={[styles.btnText, pressed && styles.btnTextPressed]}>
-            Register
-          </Text>
+        {loading ? (
+          <ActivityIndicator color="#589572" />
+        ) : (
+          <Text style={styles.btnText}>Register</Text>
         )}
       </Pressable>
+
+      {errorMessage ? (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      ) : null}
+
+      {successMessage ? (
+        <Text style={styles.successText}>{successMessage}</Text>
+      ) : null}
 
       <View style={styles.registerInfoContainer}>
         <Text style={styles.registerInfoText}>Got an account already?</Text>
@@ -118,6 +201,20 @@ const styles = StyleSheet.create({
 
   btnTextPressed: {
     color: "#fff",
+  },
+
+  disabled: {
+    opacity: 0.6,
+  },
+
+  errorText: {
+    color: "#c62828",
+    fontFamily: Fonts.body,
+  },
+
+  successText: {
+    color: "#2e7d32",
+    fontFamily: Fonts.body,
   },
 
   registerInfoContainer: {
