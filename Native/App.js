@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import { useFonts } from "expo-font";
@@ -17,8 +17,6 @@ import {
   NunitoSans_700Bold,
 } from "@expo-google-fonts/nunito-sans";
 
-import { useState } from "react";
-
 import Homepage from "./screens/Homepage";
 import Loginpage from "./screens/Loginpage";
 import Registerpage from "./screens/Registerpage";
@@ -27,9 +25,73 @@ import Contentpage from "./screens/Contentpage";
 import Userpage from "./screens/Userpage";
 import CineDetailpage from "./screens/CineDetailpage";
 import Landingpage from "./screens/Landingpage";
-import { AuthProvider } from "./context/AuthProvider";
+
+import { useAuth, AuthProvider } from "./context/AuthProvider";
 
 const Stack = createNativeStackNavigator();
+
+function AppNav() {
+  const { isLoggedIn, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#589572" />
+      </View>
+    );
+  }
+
+  return (
+    <NavigationContainer>
+      <Header />
+      <Stack.Navigator initialRouteName={isLoggedIn ? "Home" : "Landing"}>
+        <Stack.Screen
+          name="Landing"
+          component={Landingpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Homepage}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Login"
+          component={Loginpage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Registerpage}
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="Content"
+          component={Contentpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Favs"
+          component={Favouritespage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="User"
+          component={Userpage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={CineDetailpage}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+
+      <Navbar />
+    </NavigationContainer>
+  );
+}
 
 export default function App() {
   const dots = Array.from({ length: 120 }, (_, index) => index);
@@ -60,54 +122,7 @@ export default function App() {
           ))}
         </View>
 
-        <NavigationContainer>
-          <Header />
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Landing"
-              component={Landingpage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Home"
-              component={Homepage}
-              options={{ headerShown: false }}
-            />
-
-            <Stack.Screen
-              name="Login"
-              component={Loginpage}
-              options={{ headerShown: true }}
-            />
-            <Stack.Screen
-              name="Register"
-              component={Registerpage}
-              options={{ headerShown: true }}
-            />
-            <Stack.Screen
-              name="Content"
-              component={Contentpage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Favs"
-              component={Favouritespage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="User"
-              component={Userpage}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Detail"
-              component={CineDetailpage}
-              options={{ headerShown: false }}
-            />
-          </Stack.Navigator>
-
-          <Navbar />
-        </NavigationContainer>
+        <AppNav />
       </View>
     </AuthProvider>
   );
@@ -116,6 +131,12 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   dotGrid: {

@@ -42,8 +42,8 @@ export default function Header() {
     navigation.navigate(screen);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigation.navigate("Landing");
   };
 

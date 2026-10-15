@@ -41,12 +41,12 @@ export default function LoginForm() {
     try {
       setLoading(true);
 
-      const user = await LoginUser({
+      const data = await LoginUser({
         email: email.trim(),
         password,
       });
 
-      login(user);
+      login(data.user, data.token);
 
       setSuccessMessage("Login successful!");
       navigation.navigate("Home");

@@ -13,6 +13,7 @@ import com.example.Server.utils.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -78,5 +79,14 @@ public class UserController {
         return ResponseEntity.ok(message);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<GetSpecificUserDto> getCurrentUser(
+            @AuthenticationPrincipal UUID userId
+    ) {
+        User onlineUser = userService.getSpecificUser(userId);
 
+        GetSpecificUserDto userDto = GetSpecificUserDto.from(onlineUser);
+
+        return ResponseEntity.ok(userDto);
+    }
 }
