@@ -61,7 +61,7 @@ export default function App() {
       </View>
 
       <NavigationContainer>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} />
         <Stack.Navigator>
           <Stack.Screen
             name="Landing"

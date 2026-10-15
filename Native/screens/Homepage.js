@@ -90,9 +90,6 @@ export default function Homepage() {
       </View>
       {/* Slut: Content Carousels 1 */}
 
-      {/* Start:  */}
-      {/* Slut:  */}
-
       {/* Start: Content Carousels 2 */}
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Trending Daily</Text>

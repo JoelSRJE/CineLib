@@ -11,6 +11,11 @@ import NavItem from "./NavItem";
 
 export default function Navbar({ isLoggedIn }) {
   const navigation = useNavigation();
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
   const navItems = [
     {
       id: 1,

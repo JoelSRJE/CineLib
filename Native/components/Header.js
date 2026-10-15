@@ -1,10 +1,14 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
-import { LockIcon, NotePencilIcon } from "phosphor-react-native";
+import {
+  LockIcon,
+  NotePencilIcon,
+  MagnifyingGlassIcon,
+} from "phosphor-react-native";
 import CineLib from "../assets/Logo/CineLib-logo.png";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Header() {
+export default function Header({ isLoggedIn }) {
   const navigation = useNavigation();
   const userOptions = [
     {
@@ -28,12 +32,26 @@ export default function Header() {
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        <Pressable
-          onPress={() => goTo("Home")}
-          style={({ pressed }) => [pressed && styles.pressed]}
-        >
-          <Image source={CineLib} style={styles.logo} contentFit="contain" />
-        </Pressable>
+        <View style={styles.leftContainer}>
+          <Pressable
+            onPress={() => {
+              {
+                isLoggedIn ? goTo("Home") : goTo("Landing");
+              }
+            }}
+            style={({ pressed }) => [pressed && styles.pressed]}
+          >
+            <Image source={CineLib} style={styles.logo} contentFit="contain" />
+          </Pressable>
+
+          {isLoggedIn ? (
+            <Pressable style={styles.searchBtn}>
+              <Text>
+                <MagnifyingGlassIcon size={24} />
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
 
         <View style={styles.buttonContainer}>
           {userOptions.map((option) => {
@@ -72,6 +90,21 @@ const styles = StyleSheet.create({
     marginTop: 40,
     paddingHorizontal: 16,
     paddingBottom: 1,
+  },
+
+  leftContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+
+  searchBtn: {
+    justifyContent: "center",
+    alignContent: "center",
+    borderWidth: 2,
+    borderRadius: 50,
+    padding: 8,
+    borderColor: "rgba(0, 0, 0, 0.8)",
   },
 
   logo: {
