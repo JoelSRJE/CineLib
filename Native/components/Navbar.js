@@ -8,8 +8,11 @@ import {
 import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
 import NavItem from "./NavItem";
+import { useAuth } from "../context/AuthProvider";
 
-export default function Navbar({ isLoggedIn }) {
+export default function Navbar() {
+  const { isLoggedIn } = useAuth();
+
   const navigation = useNavigation();
 
   if (!isLoggedIn) {

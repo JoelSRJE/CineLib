@@ -4,11 +4,16 @@ import {
   LockIcon,
   NotePencilIcon,
   MagnifyingGlassIcon,
+  SignOutIcon,
 } from "phosphor-react-native";
 import CineLib from "../assets/Logo/CineLib-logo.png";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../context/AuthProvider";
+import Fonts from "../constants/Fonts";
 
-export default function Header({ isLoggedIn }) {
+export default function Header() {
+  const { isLoggedIn, user, logout } = useAuth();
+
   const navigation = useNavigation();
   const userOptions = [
     {
@@ -25,8 +30,21 @@ export default function Header({ isLoggedIn }) {
     },
   ];
 
+  const logoutOption = [
+    {
+      id: 1,
+      name: "Logout",
+      icon: SignOutIcon,
+    },
+  ];
+
   const goTo = (screen) => {
     navigation.navigate(screen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigation.navigate("Landing");
   };
 
   return (
@@ -51,27 +69,49 @@ export default function Header({ isLoggedIn }) {
               </Text>
             </Pressable>
           ) : null}
+
+          <View style={styles.usernameContainer}>
+            <Text style={styles.username}>Welcome {user?.username}</Text>
+          </View>
         </View>
 
         <View style={styles.buttonContainer}>
-          {userOptions.map((option) => {
-            const Icon = option.icon;
+          {!isLoggedIn
+            ? userOptions.map((option) => {
+                const Icon = option.icon;
 
-            return (
-              <Pressable
-                key={option.id}
-                onPress={() => goTo(option.screen)}
-                style={({ pressed }) => [
-                  styles.button,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <Icon size={30} />
-              </Pressable>
-            );
-          })}
+                return (
+                  <Pressable
+                    key={option.id}
+                    onPress={() => goTo(option.screen)}
+                    style={({ pressed }) => [
+                      styles.button,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Icon size={30} />
+                  </Pressable>
+                );
+              })
+            : logoutOption.map((option) => {
+                const Icon = option.icon;
+
+                return (
+                  <Pressable
+                    key={option.id}
+                    onPress={handleLogout}
+                    style={({ pressed }) => [
+                      styles.button,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Icon size={30} />
+                  </Pressable>
+                );
+              })}
         </View>
       </View>
+
       <View style={styles.bottomBorder} />
     </View>
   );
@@ -135,5 +175,16 @@ const styles = StyleSheet.create({
   pressed: {
     transform: [{ scale: 0.9 }],
     opacity: 0.5,
+  },
+
+  usernameContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 8,
+  },
+
+  username: {
+    fontSize: 16,
+    fontFamily: Fonts.headingMedium,
   },
 });

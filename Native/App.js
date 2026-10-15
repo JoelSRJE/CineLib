@@ -27,13 +27,12 @@ import Contentpage from "./screens/Contentpage";
 import Userpage from "./screens/Userpage";
 import CineDetailpage from "./screens/CineDetailpage";
 import Landingpage from "./screens/Landingpage";
+import { AuthProvider } from "./context/AuthProvider";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const dots = Array.from({ length: 120 }, (_, index) => index);
-
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const [loaded, error] = useFonts({
     "Rubik-Regular": Rubik_400Regular,
@@ -53,62 +52,64 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.dotGrid} pointerEvents="none">
-        {dots.map((dot) => (
-          <View key={dot} style={styles.dot} />
-        ))}
+    <AuthProvider>
+      <View style={styles.container}>
+        <View style={styles.dotGrid} pointerEvents="none">
+          {dots.map((dot) => (
+            <View key={dot} style={styles.dot} />
+          ))}
+        </View>
+
+        <NavigationContainer>
+          <Header />
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Landing"
+              component={Landingpage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Home"
+              component={Homepage}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="Login"
+              component={Loginpage}
+              options={{ headerShown: true }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={Registerpage}
+              options={{ headerShown: true }}
+            />
+            <Stack.Screen
+              name="Content"
+              component={Contentpage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Favs"
+              component={Favouritespage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="User"
+              component={Userpage}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Detail"
+              component={CineDetailpage}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+
+          <Navbar />
+        </NavigationContainer>
       </View>
-
-      <NavigationContainer>
-        <Header isLoggedIn={isLoggedIn} />
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Landing"
-            component={Landingpage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={Homepage}
-            options={{ headerShown: false }}
-          />
-
-          <Stack.Screen
-            name="Login"
-            component={Loginpage}
-            options={{ headerShown: true }}
-          />
-          <Stack.Screen
-            name="Register"
-            component={Registerpage}
-            options={{ headerShown: true }}
-          />
-          <Stack.Screen
-            name="Content"
-            component={Contentpage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Favs"
-            component={Favouritespage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="User"
-            component={Userpage}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Detail"
-            component={CineDetailpage}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-
-        <Navbar isLoggedIn={isLoggedIn} />
-      </NavigationContainer>
-    </View>
+    </AuthProvider>
   );
 }
 

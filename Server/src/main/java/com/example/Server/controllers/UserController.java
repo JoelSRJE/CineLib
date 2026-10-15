@@ -2,12 +2,14 @@ package com.example.Server.controllers;
 
 import com.example.Server.dtos.user.GetSpecificUserDto;
 import com.example.Server.dtos.user.LoginUserDto;
+import com.example.Server.dtos.user.LoginUserResponseDto;
 import com.example.Server.dtos.user.RegisteredUserDto;
 import com.example.Server.models.User;
 import com.example.Server.requests.user.LoginUserRequest;
 import com.example.Server.requests.user.LogoutUserRequest;
 import com.example.Server.requests.user.RegisterUserRequest;
 import com.example.Server.services.UserService;
+import com.example.Server.utils.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final JWTService jwtService;
 
     @PostMapping()
     public ResponseEntity<RegisteredUserDto> registerUser(
@@ -50,13 +53,20 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginUserDto> loginUser(
+    public ResponseEntity<LoginUserResponseDto> loginUser(
             @RequestBody LoginUserRequest request
     ) {
-
         User loginUser = userService.loginUser(request);
 
-        return ResponseEntity.ok(LoginUserDto.from(loginUser));
+        String token = jwtService.generateToken(loginUser);
+
+        LoginUserDto userDto = LoginUserDto.from(loginUser);
+
+        LoginUserResponseDto response = new LoginUserResponseDto(
+                userDto, token
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")

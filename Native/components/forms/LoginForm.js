@@ -11,8 +11,11 @@ import { useNavigation } from "@react-navigation/native";
 import { LockIcon } from "phosphor-react-native";
 import { useState } from "react";
 import LoginUser from "../../api/LoginUser";
+import { useAuth } from "../../context/AuthProvider";
 
 export default function LoginForm() {
+  const { login } = useAuth();
+
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
@@ -43,8 +46,10 @@ export default function LoginForm() {
         password,
       });
 
-      console.log("Login response:", user);
+      login(user);
+
       setSuccessMessage("Login successful!");
+      navigation.navigate("Home");
     } catch (error) {
       setErrorMessage(error.message || "Something went wrong!");
     } finally {
