@@ -9,15 +9,20 @@ import { BlurView } from "expo-blur";
 import { useNavigation } from "@react-navigation/native";
 import NavItem from "./NavItem";
 import { useAuth } from "../context/AuthProvider";
+import { useFavourite } from "../context/FavouriteProvider";
 
 export default function Navbar() {
   const { isLoggedIn } = useAuth();
+  const { favouriteList } = useFavourite();
 
   const navigation = useNavigation();
 
   if (!isLoggedIn) {
     return null;
   }
+
+  const favouriteCount =
+    favouriteList.length > 9 ? "9+" : String(favouriteList.length);
 
   const navItems = [
     {
@@ -40,6 +45,7 @@ export default function Navbar() {
       name: "Favs",
       screen: "Favs",
       icon: HeartIcon,
+      count: favouriteCount,
     },
     {
       id: 4,
