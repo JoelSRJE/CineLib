@@ -4,6 +4,7 @@ import {
   Text,
   View,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
 import GridBackground from "../components/GridBackground";
 import NewsHero from "../components/NewsHero";
@@ -46,8 +47,6 @@ export default function Homepage() {
         setPopularSeries(seriesData.results);
         setTrendingWeekly(trendingDataWeek.results);
         setTrendingDaily(trendingDataDaily.results);
-
-        showMessage("success", "Content loaded!");
       } catch (error) {
         console.error("Could not load TMDB data: ", error);
         setErrorMessage(
@@ -78,6 +77,7 @@ export default function Homepage() {
   return (
     <ScrollView style={styles.container}>
       <GridBackground />
+
       {/* Start: Hero Posters */}
       <View style={styles.carouselContainer}>
         <NewsHero newMovies={newMovies} errorMessage={errorMessage} />

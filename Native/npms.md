@@ -26,3 +26,9 @@
 ## Constants / dotenv
 
     npx expo install expo-constants
+
+## Storage
+
+        npm i expo-secure-store
+
+        npx expo install @react-native-async-storage/async-storage

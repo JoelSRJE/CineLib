@@ -3,9 +3,16 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import Placeholder from "../assets/placeholder/placeholder.png";
 import Fonts from "../constants/Fonts";
 import { StarIcon, HeartIcon } from "phosphor-react-native";
+import { useFavourite } from "../context/FavouriteProvider";
 
-export default function MediaCard({ media }) {
+export default function MediaCard({ media, mediaType }) {
+  const { addOrRemoveFavourite } = useFavourite();
+
   const title = media.title ?? media.name;
+
+  const saveToFavourite = () => {
+    addOrRemoveFavourite(media, mediaType);
+  };
 
   return (
     <View style={styles.cardWrapper}>
@@ -34,7 +41,7 @@ export default function MediaCard({ media }) {
         <Text style={styles.rating}>{media.vote_average.toFixed(1)}</Text>
       </View>
 
-      <Pressable style={styles.favContainer}>
+      <Pressable onPress={saveToFavourite} style={styles.favContainer}>
         <HeartIcon size={14} color="#fc4848" weight="fill" />
       </Pressable>
 

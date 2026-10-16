@@ -109,7 +109,7 @@ export default function Contentpage({ route }) {
       <ScrollView>
         <View style={styles.mediaGrid}>
           {displayedMedia.map((item) => (
-            <MediaCard key={item.id} media={item} />
+            <MediaCard key={item.id} media={item} mediaType={mediaType} />
           ))}
         </View>
 

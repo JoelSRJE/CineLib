@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import Message from "../components/Message";
+import { MessageList } from "../components/Message";
 
 const MessageContext = createContext(null);
 
@@ -24,16 +24,7 @@ export default function MessageProvider({ children }) {
     <MessageContext.Provider value={{ showMessage }}>
       {children}
 
-      {notifications.map((notification, index) => (
-        <Message
-          key={notification.id}
-          type={notification.type}
-          message={notification.message}
-          time={notification.time}
-          index={index}
-          onRemove={() => removeMessage(notification.id)}
-        />
-      ))}
+      <MessageList messages={notifications} onRemove={removeMessage} />
     </MessageContext.Provider>
   );
 }

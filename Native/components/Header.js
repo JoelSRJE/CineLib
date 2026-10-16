@@ -45,8 +45,6 @@ export default function Header() {
   };
 
   const handleLogout = async () => {
-    const successfullyLoggedOut = false;
-
     const response = await logout();
 
     if (response === true) {
