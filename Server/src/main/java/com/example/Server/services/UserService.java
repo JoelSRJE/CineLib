@@ -5,6 +5,7 @@ import com.example.Server.repositories.UserRepository;
 import com.example.Server.requests.user.LoginUserRequest;
 import com.example.Server.requests.user.LogoutUserRequest;
 import com.example.Server.requests.user.RegisterUserRequest;
+import com.example.Server.requests.user.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,27 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User updateUser(UUID userId, UpdateUserRequest request) {
+        if (request.username() == null || request.username().isBlank()) {
+            throw new IllegalArgumentException("Username is null or empty");
+        }
+
+        if (request.email() == null || request.email().isBlank()) {
+            throw new IllegalArgumentException("Email is null or empty");
+        }
+
+        User userToUpdate = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found!"));
+
+        userToUpdate.setUsername(request.username());
+        userToUpdate.setEmail(request.email());
+
+        userRepository.save(userToUpdate);
+
+        return userToUpdate;
+    }
+
+    @Override
     public User loginUser(LoginUserRequest request) {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() ->
@@ -75,7 +97,7 @@ public class UserService implements IUserService {
 
     @Override
     public String logoutUser(LogoutUserRequest request) {
-        User user = userRepository.findByEmail(request.email())
+        User user = userRepository.findByUserId(request.userId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found!"));
 
         updateUserLoginStatus(user.getUserId(), false);

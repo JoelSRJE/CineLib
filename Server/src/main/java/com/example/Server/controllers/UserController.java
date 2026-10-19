@@ -1,13 +1,11 @@
 package com.example.Server.controllers;
 
-import com.example.Server.dtos.user.GetSpecificUserDto;
-import com.example.Server.dtos.user.LoginUserDto;
-import com.example.Server.dtos.user.LoginUserResponseDto;
-import com.example.Server.dtos.user.RegisteredUserDto;
+import com.example.Server.dtos.user.*;
 import com.example.Server.models.User;
 import com.example.Server.requests.user.LoginUserRequest;
 import com.example.Server.requests.user.LogoutUserRequest;
 import com.example.Server.requests.user.RegisterUserRequest;
+import com.example.Server.requests.user.UpdateUserRequest;
 import com.example.Server.services.UserService;
 import com.example.Server.utils.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -88,5 +86,15 @@ public class UserController {
         GetSpecificUserDto userDto = GetSpecificUserDto.from(onlineUser);
 
         return ResponseEntity.ok(userDto);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<UpdatedUserDto> updateUser(
+            @PathVariable UUID userId,
+            @RequestBody UpdateUserRequest request
+            ) {
+        User updatedUser = userService.updateUser(userId, request);
+
+        return ResponseEntity.ok(UpdatedUserDto.from(updatedUser));
     }
 }

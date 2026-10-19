@@ -69,7 +69,7 @@ export function AuthProvider({ children }) {
     try {
       if (user && authToken) {
         await logoutUser({
-          email: user.email,
+          userId: user.userId,
           authToken,
         });
 
@@ -87,6 +87,13 @@ export function AuthProvider({ children }) {
     return dbLogout;
   };
 
+  const updateUserData = (updatedUser) => {
+    setUser((currentUser) => ({
+      ...currentUser,
+      ...updatedUser,
+    }));
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -96,6 +103,7 @@ export function AuthProvider({ children }) {
         isLoading,
         login,
         logout,
+        updateUserData,
       }}
     >
       {children}

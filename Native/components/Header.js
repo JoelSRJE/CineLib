@@ -13,7 +13,7 @@ import Fonts from "../constants/Fonts";
 import { useMessage } from "../context/MessageProvider";
 
 export default function Header() {
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, user, logout, updateUserData } = useAuth();
   const { showMessage } = useMessage();
 
   const navigation = useNavigation();

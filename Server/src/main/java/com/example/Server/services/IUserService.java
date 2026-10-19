@@ -4,6 +4,7 @@ import com.example.Server.models.User;
 import com.example.Server.requests.user.LoginUserRequest;
 import com.example.Server.requests.user.LogoutUserRequest;
 import com.example.Server.requests.user.RegisterUserRequest;
+import com.example.Server.requests.user.UpdateUserRequest;
 
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ public interface IUserService {
     User registerUser(RegisterUserRequest request);
     User getSpecificUser(UUID userId);
     void deleteUser(UUID userId);
-
+    User updateUser(UUID userId, UpdateUserRequest request);
 
     /* Login methods */
     User loginUser(LoginUserRequest request);

@@ -21,14 +21,14 @@ export async function LoginUser({ email, password }) {
   return response.json();
 }
 
-export default async function logoutUser({ email, authToken }) {
+export default async function logoutUser({ userId, authToken }) {
   const response = await fetch(`${BASE_URL}/user/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ userId }),
   });
 
   if (!response.ok) {

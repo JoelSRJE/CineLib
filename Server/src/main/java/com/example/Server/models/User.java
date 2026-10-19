@@ -47,4 +47,14 @@ public class User {
         this.isOnline = false;
     }
 
+    @Override
+    public String toString() {
+        return "| User | ID: " + userId +
+                " | Username: " + username +
+                " | Email: " + email +
+                " | AccountType: " + accountType +
+                " | Created: " + createdAt +
+                " | Online: " + isOnline + " |";
+    }
+
 }
