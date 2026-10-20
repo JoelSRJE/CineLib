@@ -27,7 +27,6 @@ import CineDetailpage from "./screens/CineDetailpage";
 import Landingpage from "./screens/Landingpage";
 
 import { useAuth, AuthProvider } from "./context/AuthProvider";
-import Message from "./components/Message";
 import MessageProvider from "./context/MessageProvider";
 import FavouriteProvider from "./context/FavouriteProvider";
 
@@ -87,7 +86,7 @@ function AppNav() {
         <Stack.Screen
           name="Detail"
           component={CineDetailpage}
-          options={{ headerShown: false }}
+          options={{ headerShown: true }}
         />
       </Stack.Navigator>
 

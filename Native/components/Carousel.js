@@ -5,7 +5,6 @@ import {
   Text,
   FlatList,
   useWindowDimensions,
-  Image,
   Pressable,
 } from "react-native";
 import {
@@ -14,8 +13,10 @@ import {
   CaretCircleRightIcon,
 } from "phosphor-react-native";
 import Fonts from "../constants/Fonts";
+import { useNavigation } from "@react-navigation/native";
+import { Image } from "expo-image";
 
-export default function Carousel({ media, errorMessage }) {
+export default function Carousel({ media, mediaType, errorMessage }) {
   const { width } = useWindowDimensions();
 
   const visibleMovies = width >= 600 ? 3 : 2;
@@ -25,6 +26,8 @@ export default function Carousel({ media, errorMessage }) {
   const flatListRef = useRef(null);
 
   const movies = media;
+
+  const navigation = useNavigation();
 
   const scrollToMovie = (index) => {
     if (index < 0 || index >= movies.length) return;
@@ -62,40 +65,53 @@ export default function Carousel({ media, errorMessage }) {
             offset: cardWidth * index,
             index,
           })}
-          renderItem={({ item }) => (
-            <View style={[styles.slide, { width: cardWidth }]}>
-              {item.poster_path ? (
-                <Image
-                  source={{
-                    uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-                  }}
-                  style={styles.poster}
-                  contentFit="cover"
-                />
-              ) : (
-                <View style={[styles.poster, styles.noPoster]}>
-                  <Text>Ingen bild tillgänglig</Text>
-                </View>
-              )}
-
-              <View style={styles.ratingContainer}>
-                <StarIcon size={16} color="yellow" weight="fill" />
-                <Text style={styles.rating}>
-                  {item.vote_average.toFixed(1)}
-                </Text>
-              </View>
-            </View>
-          )}
           onMomentumScrollEnd={(event) => {
-            const index = Math.round(
-              event.nativeEvent.contentOffset.x / cardWidth,
-            );
+            const offsetX = event.nativeEvent.contentOffset.x;
+            const index = Math.round(offsetX / cardWidth);
 
             setActiveIndex(index);
           }}
+          renderItem={({ item }) => {
+            const posterUrl = item.poster_path
+              ? `https://image.tmdb.org/t/p/w500${item.poster_path}`
+              : null;
+
+            return (
+              <View style={[styles.slide, { width: cardWidth }]}>
+                <Pressable
+                  onPress={() => {
+                    navigation.navigate("Detail", {
+                      media: item,
+                      mediaType: item.media_type ?? mediaType,
+                    });
+                  }}
+                  style={[styles.posterContainer, { width: cardWidth - 12 }]}
+                >
+                  {posterUrl ? (
+                    <Image
+                      source={{ uri: posterUrl }}
+                      style={styles.poster}
+                      contentFit="cover"
+                    />
+                  ) : (
+                    <View style={[styles.poster, styles.noPoster]}>
+                      <Text>Ingen bild tillgänglig</Text>
+                    </View>
+                  )}
+                </Pressable>
+
+                <View style={styles.ratingContainer}>
+                  <StarIcon size={16} color="yellow" weight="fill" />
+                  <Text style={styles.rating}>
+                    {item.vote_average?.toFixed(1) ?? "N/A"}
+                  </Text>
+                </View>
+              </View>
+            );
+          }}
         />
 
-        <View style={styles.navigationControls}>
+        <View style={styles.navigationControls} pointerEvents="box-none">
           <Pressable
             onPress={() => scrollToMovie(activeIndex - 1)}
             disabled={activeIndex === 0}
@@ -131,16 +147,24 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
 
+  posterContainer: {
+    height: 300,
+    marginVertical: 12,
+    borderRadius: 12,
+    backgroundColor: "#111714",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.8)",
+  },
+
   slide: {
     position: "relative",
     alignItems: "center",
+    height: 324,
     paddingHorizontal: 6,
-    height: 300,
   },
 
   poster: {
     width: "100%",
-    height: 300,
+    height: "100%",
     borderRadius: 12,
   },
 
@@ -152,7 +176,7 @@ const styles = StyleSheet.create({
 
   ratingContainer: {
     position: "absolute",
-    top: 8,
+    top: 20,
     right: 12,
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     flexDirection: "row",

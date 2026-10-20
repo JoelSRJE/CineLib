@@ -5,18 +5,21 @@ import {
   Text,
   FlatList,
   useWindowDimensions,
-  Image,
   Pressable,
 } from "react-native";
+
 import {
   StarIcon,
   CaretCircleLeftIcon,
   CaretCircleRightIcon,
 } from "phosphor-react-native";
 import Fonts from "../constants/Fonts";
+import { useNavigation } from "@react-navigation/native";
+import { Image } from "expo-image";
 
-export default function NewsHero({ newMovies, errorMessage }) {
+export default function NewsHero({ newMovies, mediaType, errorMessage }) {
   const { width } = useWindowDimensions();
+  const navigation = useNavigation();
 
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef(null);
@@ -54,19 +57,29 @@ export default function NewsHero({ newMovies, errorMessage }) {
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
           <View style={[styles.slide, { width }]}>
-            {item.poster_path ? (
-              <Image
-                source={{
-                  uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
-                }}
-                style={styles.poster}
-                contentFit="cover"
-              />
-            ) : (
-              <View style={[styles.poster, styles.noPoster]}>
-                <Text>No poster available!</Text>
-              </View>
-            )}
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Detail", {
+                  media: item,
+                  mediaType: "movie",
+                });
+              }}
+              style={styles.posterBtn}
+            >
+              {item.poster_path ? (
+                <Image
+                  source={{
+                    uri: `https://image.tmdb.org/t/p/w500${item.poster_path}`,
+                  }}
+                  style={styles.poster}
+                  contentFit="cover"
+                />
+              ) : (
+                <View style={[styles.poster, styles.noPoster]}>
+                  <Text>No poster available!</Text>
+                </View>
+              )}
+            </Pressable>
 
             <View style={styles.releaseContainer}>
               <Text style={styles.releaseText}>In Theaters</Text>
@@ -77,7 +90,7 @@ export default function NewsHero({ newMovies, errorMessage }) {
               <Text style={styles.rating}>{item.vote_average.toFixed(1)}</Text>
             </View>
 
-            <View style={styles.navigationControls}>
+            <View style={styles.navigationControls} pointerEvents="box-none">
               <Pressable
                 onPress={() => scrollToMovie(activeIndex - 1)}
                 disabled={activeIndex === 0}
@@ -121,17 +134,26 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  posterBtn: {
+    position: "absolute",
+    top: 12,
+    left: 8,
+    right: 8,
+    bottom: 12,
+    borderRadius: 12,
+    backgroundColor: "#111714",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.8)",
+  },
+
   slide: {
     position: "relative",
     alignItems: "center",
-    padding: 16,
-    height: 700,
+    height: 724,
   },
 
   poster: {
-    position: "absolute",
     width: "100%",
-    height: 700,
+    height: "100%",
     borderRadius: 12,
   },
 
@@ -143,7 +165,7 @@ const styles = StyleSheet.create({
 
   releaseContainer: {
     position: "absolute",
-    top: 10,
+    top: 20,
     left: 28,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     flexDirection: "row",
@@ -162,7 +184,7 @@ const styles = StyleSheet.create({
 
   ratingContainer: {
     position: "absolute",
-    top: 10,
+    top: 20,
     right: 28,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     flexDirection: "row",
@@ -188,7 +210,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     transform: [{ translateY: -20 }],
-    index: 100,
   },
 
   arrowButton: {

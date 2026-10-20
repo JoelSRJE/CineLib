@@ -4,9 +4,11 @@ import Placeholder from "../assets/placeholder/placeholder.png";
 import Fonts from "../constants/Fonts";
 import { StarIcon, HeartIcon } from "phosphor-react-native";
 import { useFavourite } from "../context/FavouriteProvider";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MediaCard({ media, mediaType }) {
   const { addOrRemoveFavourite } = useFavourite();
+  const navigation = useNavigation();
 
   const title = media.title ?? media.name;
 
@@ -15,7 +17,15 @@ export default function MediaCard({ media, mediaType }) {
   };
 
   return (
-    <View style={styles.cardWrapper}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate("Detail", {
+          media,
+          mediaType,
+        })
+      }
+      style={styles.cardWrapper}
+    >
       <View style={styles.cardContainer}>
         {media.poster_path ? (
           <Image
@@ -50,7 +60,7 @@ export default function MediaCard({ media, mediaType }) {
           {title}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 

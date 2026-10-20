@@ -8,7 +8,6 @@ export default function LandingPage({ navigation }) {
     <View style={styles.container}>
       <GridBackground />
 
-      {/* Start: Landing Page Content */}
       <View style={styles.contentContainer}>
         <Image source={CineLib} style={styles.logo} contentFit="contain" />
 
@@ -18,7 +17,6 @@ export default function LandingPage({ navigation }) {
           Discover movies, explore ratings, and find your next favorite film.
         </Text>
 
-        {/* Start: Login&Register Buttons  */}
         <Pressable
           style={({ pressed }) => [
             styles.registerBtn,
@@ -35,9 +33,7 @@ export default function LandingPage({ navigation }) {
         >
           <Text style={styles.loginBtnText}>Sign In</Text>
         </Pressable>
-        {/* Slut: Login&Register Buttons */}
       </View>
-      {/* Slut: Landing Page Content */}
     </View>
   );
 }

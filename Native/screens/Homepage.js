@@ -78,25 +78,32 @@ export default function Homepage() {
     <ScrollView style={styles.container}>
       <GridBackground />
 
-      {/* Start: Hero Posters */}
       <View style={styles.carouselContainer}>
-        <NewsHero newMovies={newMovies} errorMessage={errorMessage} />
+        <NewsHero
+          newMovies={newMovies}
+          mediaType="movie"
+          errorMessage={errorMessage}
+        />
       </View>
-      {/* Start: Hero Posters */}
 
-      {/* Start: Content Carousels 1 */}
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Popular Movies</Text>
-        <Carousel media={popularMovies} errorMessage={errorMessage} />
+        <Carousel
+          media={popularMovies}
+          mediaType="movie"
+          errorMessage={errorMessage}
+        />
       </View>
 
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Popular Series</Text>
-        <Carousel media={popularSeries} errorMessage={errorMessage} />
+        <Carousel
+          media={popularSeries}
+          mediaType="tv"
+          errorMessage={errorMessage}
+        />
       </View>
-      {/* Slut: Content Carousels 1 */}
 
-      {/* Start: Content Carousels 2 */}
       <View style={styles.carouselWrapper}>
         <Text style={styles.carouselTitle}>Trending Daily</Text>
         <Carousel media={trendingDaily} errorMessage={errorMessage} />
@@ -106,7 +113,6 @@ export default function Homepage() {
         <Text style={styles.carouselTitle}>Trending Weekly</Text>
         <Carousel media={trendingWeekly} errorMessage={errorMessage} />
       </View>
-      {/* Slut: Content Carousels 2 */}
 
       {/* Start: Contact Us */}
       {/* Slut: Contact Us */}
