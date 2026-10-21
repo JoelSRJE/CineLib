@@ -1,11 +1,30 @@
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput, Pressable } from "react-native";
 import { useAuth } from "../../context/AuthProvider";
 import Fonts from "../../constants/Fonts";
+import { useState } from "react";
+import { useMessage } from "../../context/MessageProvider";
 
-export default function CommentForm() {
+export default function CommentForm({ media }) {
+  const { showMessage } = useMessage();
   const { user } = useAuth();
-
   const todaysDate = new Date().toLocaleDateString("sv-SE");
+
+  const [author, setAuthor] = useState(user?.username);
+  const [date, setDate] = useState(todaysDate);
+  const [comment, setComment] = useState("");
+
+  const handleSubmit = () => {
+    if (!comment.trim()) {
+      // Shouldn't render at all because of .trim check but you never know..
+      showMessage("warning", "Can't post an empty comment!");
+      return;
+    }
+
+    console.log("Comment: ", comment.trim());
+
+    setComment("");
+    showMessage("success", `Posted comment on: ${media.title || media.name} `);
+  };
 
   return (
     <View style={styles.container}>
@@ -28,11 +47,28 @@ export default function CommentForm() {
           <Text style={styles.label}>Comment</Text>
           <TextInput
             style={styles.input}
-            editable={true}
+            value={comment}
+            onChangeText={setComment}
+            multiline
+            maxLength={500}
             placeholder="Write here.."
+            textAlignVertical="top"
           />
         </View>
+        <Text style={styles.lettersCount}>{comment.length}/500</Text>
       </View>
+
+      <Pressable
+        onPress={handleSubmit}
+        disabled={!comment.trim()}
+        style={({ pressed }) => [
+          styles.submitBtn,
+          !comment.trim() && styles.disabledBtn,
+          pressed && styles.pressed,
+        ]}
+      >
+        <Text style={styles.submitText}>Post Comment</Text>
+      </Pressable>
     </View>
   );
 }
@@ -88,5 +124,49 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.bodySemiBold,
     fontStyle: "italic",
     color: "#589572",
+  },
+
+  input: {
+    minHeight: 120,
+    borderWidth: 1,
+    borderColor: "#d1d1d1",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 15,
+    fontFamily: Fonts.body,
+    color: "#222",
+    backgroundColor: "rgba(255,255,255,0.8)",
+  },
+
+  lettersCount: {
+    alignSelf: "flex-end",
+    marginTop: 4,
+    fontSize: 12,
+    color: "#535353",
+    fontFamily: Fonts.body,
+  },
+
+  submitBtn: {
+    alignSelf: "flex-end",
+    marginTop: 12,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    backgroundColor: "#589572",
+    borderRadius: 8,
+  },
+
+  submitText: {
+    color: "#fff",
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 15,
+  },
+
+  disabledBtn: {
+    opacity: 0.4,
+  },
+
+  pressed: {
+    transform: [{ scale: 0.9 }],
+    opacity: 0.5,
   },
 });

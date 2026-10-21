@@ -54,7 +54,7 @@ export default function RegisterForm() {
       setUsername("");
       setEmail("");
       setPassword("");
-      navigation.navigate("login");
+      navigation.navigate("Login");
     } catch (error) {
       setErrorMessage("Registration failed. Please try again.");
     } finally {

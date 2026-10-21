@@ -122,7 +122,7 @@ export default function CineDetailpage({ route }) {
                 {details.overview || "No description available..."}
               </Text>
             </View>
-            <CommentSection />
+            <CommentSection media={media} />
           </View>
         </ScrollView>
       )}

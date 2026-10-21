@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Fonts from "../constants/Fonts";
 import CommentForm from "./forms/CommentForm";
 
-export default function CommentSection() {
+export default function CommentSection({ media }) {
   const comments = [
     {
       id: 1,
@@ -13,7 +13,7 @@ export default function CommentSection() {
     {
       id: 2,
       author: "Test User",
-      comment: "Lorem Ipsum Dolores...",
+      comment: "Lorem Ipsum Dolor sit amet...",
       createdAt: "2026-10-18",
     },
   ];
@@ -23,7 +23,7 @@ export default function CommentSection() {
       <Text style={styles.title}>Comments</Text>
 
       <View style={styles.commentForm}>
-        <CommentForm />
+        <CommentForm media={media} />
       </View>
 
       <ScrollView>

@@ -23,7 +23,6 @@ export default function MessageProvider({ children }) {
   return (
     <MessageContext.Provider value={{ showMessage }}>
       {children}
-
       <MessageList messages={notifications} onRemove={removeMessage} />
     </MessageContext.Provider>
   );
