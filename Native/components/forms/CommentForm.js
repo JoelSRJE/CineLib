@@ -3,27 +3,53 @@ import { useAuth } from "../../context/AuthProvider";
 import Fonts from "../../constants/Fonts";
 import { useState } from "react";
 import { useMessage } from "../../context/MessageProvider";
+import CreateComment from "../../api/Comment";
 
-export default function CommentForm({ media }) {
+export default function CommentForm({ media, commentCreated }) {
   const { showMessage } = useMessage();
-  const { user } = useAuth();
+  const { user, authToken } = useAuth();
   const todaysDate = new Date().toLocaleDateString("sv-SE");
 
-  const [author, setAuthor] = useState(user?.username);
-  const [date, setDate] = useState(todaysDate);
   const [comment, setComment] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!comment.trim()) {
-      // Shouldn't render at all because of .trim check but you never know..
       showMessage("warning", "Can't post an empty comment!");
       return;
     }
 
-    console.log("Comment: ", comment.trim());
+    if (!user?.userId) {
+      showMessage("warning", "You must be logged in to comment!");
+      return;
+    }
 
-    setComment("");
-    showMessage("success", `Posted comment on: ${media.title || media.name} `);
+    if (media?.id == null) {
+      showMessage("error", "Could not identify this movie or series!");
+      return;
+    }
+
+    try {
+      const newComment = await CreateComment({
+        comment: comment.trim(),
+        mediaId: media.id,
+        mediaType: media.media_type ?? (media.name ? "tv" : "movie"),
+        userId: user.userId,
+        authToken,
+      });
+
+      commentCreated?.(newComment);
+
+      setComment("");
+      showMessage(
+        "success",
+        `Posted comment on: ${media.title || media.name} `,
+      );
+
+      console.log("Created comment: ", newComment);
+    } catch (error) {
+      console.error("Something went wrong while creating comment: ", error);
+      showMessage("error", error.message || "Could not post comment!");
+    }
   };
 
   return (

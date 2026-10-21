@@ -11,6 +11,7 @@ public record CommentDto(
         Long mediaId,
         String mediaType,
         LocalDateTime createdAt,
+        UUID userId,
         String username
 ) {
     public static CommentDto from (Comment comment) {
@@ -20,6 +21,7 @@ public record CommentDto(
                 comment.getMediaId(),
                 comment.getMediaType(),
                 comment.getCreatedAt(),
+                comment.getUserId().getUserId(),
                 comment.getUserId().getUsername()
         );
     }
