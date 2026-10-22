@@ -14,7 +14,8 @@ export default function LandingPage({ navigation }) {
         <Text style={styles.title}>Welcome to CineLib</Text>
 
         <Text style={styles.description}>
-          Discover movies, explore ratings, and find your next favorite film.
+          Discover movies, explore ratings, comment on specific films or series
+          and find your next favorite!.
         </Text>
 
         <Pressable

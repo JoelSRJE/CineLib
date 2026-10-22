@@ -12,7 +12,7 @@ export default async function getMovieData(endpoint, page = 1) {
   );
 
   if (!response.ok) {
-    throw new Error(`TMDB request failed: ${response.status}`);
+    throw new Error(`TMDB get data request failed: ${response.status}`);
   }
 
   const data = await response.json();

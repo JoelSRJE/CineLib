@@ -1,6 +1,13 @@
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  Share,
+} from "react-native";
 import Fonts from "../constants/Fonts";
 import GridBackground from "../components/GridBackground";
 import { HeartIcon, StarIcon } from "phosphor-react-native";
@@ -42,6 +49,17 @@ export default function CineDetailpage({ route }) {
       </View>
     );
   }
+
+  const shareMedia = async () => {
+    try {
+      await Share.share({
+        message: `Check out ${details.title || details.name} on CineLib! \n\n ${details.overview || ""}`,
+        title: details.title || details.name,
+      });
+    } catch (error) {
+      console.error("Failed to share media: ", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -122,6 +140,17 @@ export default function CineDetailpage({ route }) {
                 {details.overview || "No description available..."}
               </Text>
             </View>
+
+            <Pressable
+              onPress={shareMedia}
+              style={({ pressed }) => [
+                styles.shareButton,
+                pressed && styles.pressed,
+              ]}
+            >
+              <Text style={styles.shareText}>Share</Text>
+            </Pressable>
+
             <CommentSection media={media} />
           </View>
         </ScrollView>
@@ -262,5 +291,21 @@ const styles = StyleSheet.create({
   pressed: {
     transform: [{ scale: 0.95 }],
     opacity: 0.5,
+  },
+
+  shareButton: {
+    alignSelf: "center",
+    backgroundColor: "#589572",
+    paddingHorizontal: 30,
+    paddingVertical: 8,
+    borderRadius: 8,
+    marginTop: 10,
+    boxShadow: "0 2px 8px rgba(94, 94, 94, 0.8)",
+  },
+
+  shareText: {
+    color: "#fff",
+    fontFamily: Fonts.headingMedium,
+    fontSize: 16,
   },
 });

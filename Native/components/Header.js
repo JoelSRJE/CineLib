@@ -76,9 +76,15 @@ export default function Header() {
           </Pressable>
 
           {isLoggedIn ? (
-            <Pressable style={styles.searchBtn}>
+            <Pressable
+              onPress={() => navigation.navigate("Search")}
+              style={({ pressed }) => [
+                pressed && styles.pressed,
+                styles.searchBtn,
+              ]}
+            >
               <Text>
-                <MagnifyingGlassIcon size={24} />
+                <MagnifyingGlassIcon size={24} color="#589572" />
               </Text>
             </Pressable>
           ) : null}
@@ -159,7 +165,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 50,
     padding: 8,
-    borderColor: "rgba(0, 0, 0, 0.8)",
+    borderColor: "#589572b9",
   },
 
   logo: {

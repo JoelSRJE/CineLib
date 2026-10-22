@@ -35,8 +35,13 @@ export default function LoginForm() {
     setErrorMessage("");
     setSuccessMessage("");
 
-    if (!email.trim() || !password) {
-      setErrorMessage("Please enter your email and password!");
+    if (!email.trim()) {
+      setErrorMessage("Please enter your email!");
+      return;
+    }
+
+    if (!password) {
+      setErrorMessage("Please enter your password!");
       return;
     }
 
@@ -56,7 +61,7 @@ export default function LoginForm() {
       navigation.navigate("Home");
     } catch (error) {
       setErrorMessage("Failed to login!");
-      showMessage("error", "Something went wrong, try again!");
+      showMessage("error", "Couldn't reach server!");
     } finally {
       setLoading(false);
     }
@@ -110,7 +115,16 @@ export default function LoginForm() {
       </Pressable>
 
       {errorMessage ? (
-        <Text style={{ color: "red" }}>{errorMessage}</Text>
+        <Text
+          style={{
+            color: "red",
+            textAlign: "center",
+            fontSize: 16,
+            fontFamily: Fonts.bodySemiBold,
+          }}
+        >
+          {errorMessage}
+        </Text>
       ) : null}
 
       {successMessage ? (

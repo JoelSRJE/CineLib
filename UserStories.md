@@ -98,7 +98,7 @@
     → Sparat innehåll
     Exakt vilka delar som ska vara skyddade beror på vilken app du bygger.
 
-## US7 – Hämta data - Måste bestämma vad en användare kan spara etc
+## US7 – Hämta data - Måste bestämma vad en användare kan spara etc - Check
 
     Som användare vill jag kunna se innehåll som hämtas från ett REST API.
 
@@ -110,7 +110,7 @@
     GET /api/recipes
     GET /api/posts
 
-## US8 – Lista eller översikt
+## US8 – Lista eller översikt - Check
 
     Som användare vill jag kunna se flera objekt i en lista eller översikt.
 
@@ -122,7 +122,7 @@
 
     Inlägg
 
-## US9 – Detaljvy
+## US9 – Detaljvy - Check
 
     Som användare vill jag kunna välja ett objekt och se mer information om det.
 
@@ -134,7 +134,7 @@
       ↓
     Detaljvy
 
-## US10 – Skapa innehåll
+## US10 – Skapa innehåll - Check
 
     Som inloggad användare vill jag kunna skapa nytt innehåll i appen.
 
@@ -148,7 +148,7 @@
     POST /api/reviews
     Vad som skapas beror på vilken app du bygger.
 
-## US11 – Uppdatera innehåll
+## US11 – Uppdatera innehåll - Check
 
     Som inloggad användare vill jag kunna ändra innehåll som jag tidigare har skapat.
 
@@ -162,7 +162,7 @@
 
     PATCH /api/posts/12
 
-## US12 – Ta bort innehåll
+## US12 – Ta bort innehåll - Check
 
     Som inloggad användare vill jag kunna ta bort innehåll som jag tidigare har skapat.
 
@@ -174,7 +174,7 @@
     DELETE /api/posts/12
     Användaren ska få tydlig återkoppling när innehållet tas bort.
 
-## US13 – Sökning eller filtrering
+## US13 – Sökning eller filtrering - Check
 
     Som användare vill jag kunna söka eller filtrera innehållet så att jag enklare kan hitta det jag söker.
 
@@ -184,7 +184,7 @@
     Filtrera recept efter kategori
     Filtrera inlägg efter kategori
 
-## US14 – Interaktion och återkoppling
+## US14 – Interaktion och återkoppling - Check?
 
     Som användare vill jag få tydlig återkoppling när jag utför handlingar i appen.
 
@@ -198,7 +198,7 @@
     Sparar något
     Delar innehåll
 
-## US15 – Lokal lagring
+## US15 – Lokal lagring - Check
 
     Som användare vill jag att relevant information ska kunna finnas kvar lokalt mellan appstarter.
 
@@ -225,7 +225,7 @@
     → AsyncStorage
     Lösenord ska inte sparas lokalt.
 
-## US16 – Mobilfunktion
+## US16 – Mobilfunktion - Check
 
     Som användare vill jag kunna använda minst en funktion som utnyttjar mobilen, operativsystemet eller en annan applikation.
 
@@ -238,7 +238,7 @@
     Location
     Mobilfunktionen ska ha ett naturligt användningsområde i appen.
 
-## US17 – Loading
+## US17 – Loading - Check
 
     Som användare vill jag få tydlig återkoppling när appen väntar på data från API:t.
 
@@ -247,7 +247,7 @@
     ActivityIndicator
     användas medan data hämtas.
 
-## US18 – Felhantering
+## US18 – Felhantering - Check?
 
     Som användare vill jag få ett begripligt felmeddelande om något går fel.
 
@@ -273,7 +273,7 @@
     Kunde inte hämta innehållet.
     Försök igen.
 
-## US19 – Tomma resultat
+## US19 – Tomma resultat - Check?
 
     Som användare vill jag få tydlig information när det inte finns något innehåll att visa.
 
@@ -283,7 +283,7 @@
 
     Inga recept hittades.
 
-## US20 – Olika skärmstorlekar
+## US20 – Olika skärmstorlekar - Check?
 
     Som användare vill jag att appen fungerar och är tydlig på olika skärmstorlekar.
 

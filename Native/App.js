@@ -29,6 +29,7 @@ import Landingpage from "./screens/Landingpage";
 import { useAuth, AuthProvider } from "./context/AuthProvider";
 import MessageProvider from "./context/MessageProvider";
 import FavouriteProvider from "./context/FavouriteProvider";
+import Searchpage from "./screens/Searchpage";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ function AppNav() {
           component={Landingpage}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="Home"
           component={Homepage}
@@ -63,30 +65,41 @@ function AppNav() {
           component={Loginpage}
           options={{ headerShown: true }}
         />
+
         <Stack.Screen
           name="Register"
           component={Registerpage}
           options={{ headerShown: true }}
         />
+
         <Stack.Screen
           name="Content"
           component={Contentpage}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="Favs"
           component={Favouritespage}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="User"
           component={Userpage}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="Detail"
           component={CineDetailpage}
           options={{ headerShown: true }}
+        />
+
+        <Stack.Screen
+          name="Search"
+          component={Searchpage}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
 
