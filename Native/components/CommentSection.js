@@ -112,7 +112,9 @@ export default function CommentSection({ media }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Comments</Text>
+      <Text style={styles.title} accessibilityRole="header">
+        Comments
+      </Text>
 
       <View style={styles.commentForm}>
         <CommentForm media={media} commentCreated={handleCommentCreated} />
@@ -143,11 +145,14 @@ export default function CommentSection({ media }) {
                     onChangeText={setEditedComment}
                     multiline
                     maxLength={500}
+                    accessibilityLabel="Edit comment"
                   />
 
                   <View style={styles.actionRow}>
                     <Pressable
                       onPress={() => handleUpdateComment(item.commentId)}
+                      accessibilityRole="button"
+                      accessibilityLabel="Save comment"
                     >
                       <Text style={styles.actionText}>Save</Text>
                     </Pressable>
@@ -157,6 +162,8 @@ export default function CommentSection({ media }) {
                         setCommentId(null);
                         setEditedComment("");
                       }}
+                      accessibilityRole="button"
+                      accessibilityLabel="Cancel editing comment"
                     >
                       <Text style={styles.cancelText}>Cancel</Text>
                     </Pressable>
@@ -173,12 +180,16 @@ export default function CommentSection({ media }) {
                       setCommentId(item.commentId);
                       setEditedComment(item.comment);
                     }}
+                    accessibilityRole="button"
+                    accessibilityLabel="Edit comment"
                   >
                     <Text style={styles.actionText}>Edit</Text>
                   </Pressable>
 
                   <Pressable
                     onPress={() => handleDeleteComment(item.commentId)}
+                    accessibilityRole="button"
+                    accessibilityLabel="Delete comment"
                   >
                     <Text style={styles.deleteText}>Delete</Text>
                   </Pressable>

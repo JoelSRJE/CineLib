@@ -8,6 +8,8 @@ export default function NavItem({ item, onPress }) {
     <Pressable
       onPress={onPress}
       style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      accessibilityRole="button"
+      accessibilityLabel={`${item.name} button`}
     >
       <Icon size={30} color="#589572" />
 

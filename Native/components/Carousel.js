@@ -86,6 +86,8 @@ export default function Carousel({ media, mediaType, errorMessage }) {
                     });
                   }}
                   style={[styles.posterContainer, { width: cardWidth - 12 }]}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Open details for ${item.title ?? item.name}`}
                 >
                   {posterUrl ? (
                     <Image
@@ -95,7 +97,7 @@ export default function Carousel({ media, mediaType, errorMessage }) {
                     />
                   ) : (
                     <View style={[styles.poster, styles.noPoster]}>
-                      <Text>Ingen bild tillgänglig</Text>
+                      <Text>No image available</Text>
                     </View>
                   )}
                 </Pressable>
@@ -116,6 +118,8 @@ export default function Carousel({ media, mediaType, errorMessage }) {
             onPress={() => scrollToMovie(activeIndex - 1)}
             disabled={activeIndex === 0}
             style={styles.arrowButton}
+            accessibilityRole="button"
+            accessibilityLabel="Previous media"
           >
             <CaretCircleLeftIcon
               size={40}
@@ -128,6 +132,8 @@ export default function Carousel({ media, mediaType, errorMessage }) {
             onPress={() => scrollToMovie(activeIndex + 1)}
             disabled={activeIndex >= movies.length - 1}
             style={styles.arrowButton}
+            accessibilityRole="button"
+            accessibilityLabel="Next media"
           >
             <CaretCircleRightIcon
               size={40}

@@ -65,6 +65,8 @@ export default function NewsHero({ newMovies, mediaType, errorMessage }) {
                 });
               }}
               style={styles.posterBtn}
+              accessibilityRole="button"
+              accessibilityLabel={`Open details for ${item.title || item.name}`}
             >
               {item.poster_path ? (
                 <Image
@@ -95,6 +97,8 @@ export default function NewsHero({ newMovies, mediaType, errorMessage }) {
                 onPress={() => scrollToMovie(activeIndex - 1)}
                 disabled={activeIndex === 0}
                 style={styles.arrowButton}
+                accessibilityRole="button"
+                accessibilityLabel="Previous movie"
               >
                 <CaretCircleLeftIcon
                   size={60}
@@ -107,6 +111,8 @@ export default function NewsHero({ newMovies, mediaType, errorMessage }) {
                 onPress={() => scrollToMovie(activeIndex + 1)}
                 disabled={activeIndex === movies.length - 1}
                 style={styles.arrowButton}
+                accessibilityRole="button"
+                accessibilityLabel="Next movie"
               >
                 <CaretCircleRightIcon
                   size={60}

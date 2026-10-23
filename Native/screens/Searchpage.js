@@ -54,6 +54,7 @@ export default function Searchpage() {
           value={search}
           onChangeText={setSearch}
           placeholder="Search here.."
+          accessibilityLabel="Search movies and series"
         />
       </View>
 

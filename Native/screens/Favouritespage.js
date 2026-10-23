@@ -1,4 +1,11 @@
-import { StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import GridBackground from "../components/GridBackground";
 import { useFavourite } from "../context/FavouriteProvider";
 import { useState } from "react";
@@ -41,6 +48,9 @@ export default function Favouritespage() {
         <Pressable
           style={[styles.toggleButton, toggleView && styles.activeButton]}
           onPress={() => setToggleView(true)}
+          accessibilityRole="button"
+          accessibilityLabel="See favourite movies"
+          accessibilityState={{ selected: toggleView }}
         >
           <Text style={[styles.toggleText, toggleView && styles.activeText]}>
             Movies
@@ -50,6 +60,9 @@ export default function Favouritespage() {
         <Pressable
           style={[styles.toggleButton, !toggleView && styles.activeButton]}
           onPress={() => setToggleView(false)}
+          accessibilityRole="button"
+          accessibilityLabel="See favourite series"
+          accessibilityState={{ selected: !toggleView }}
         >
           <Text style={[styles.toggleText, !toggleView && styles.activeText]}>
             Series
@@ -58,7 +71,9 @@ export default function Favouritespage() {
       </View>
 
       <View>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title} accessibilityRole="header">
+          {title}
+        </Text>
         <View style={styles.border} />
       </View>
 

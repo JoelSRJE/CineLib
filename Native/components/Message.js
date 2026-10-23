@@ -28,7 +28,12 @@ export default function Message({ type, message, time = 3000, onRemove }) {
     <View style={styles.messageWrapper}>
       <View style={styles.messageContainer}>
         <View style={[styles.borderLeft, styles[type]]} />
-        <Text style={styles.messageText}>{message}</Text>
+        <Text
+          style={styles.messageText}
+          accessibilityRole={type === "error" ? "alert" : "text"}
+        >
+          {message}
+        </Text>
       </View>
 
       <View style={styles.progress}>

@@ -70,7 +70,9 @@ export default function LoginForm() {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Login</Text>
+        <Text style={styles.title} accessibilityRole="header">
+          Login
+        </Text>
         <LockIcon size={30} color="#589572" />
       </View>
 
@@ -83,6 +85,7 @@ export default function LoginForm() {
           keyboardType="email-address"
           editable={!loading}
           placeholder="John@doe.com"
+          accessibilityLabel="Email"
         />
       </View>
 
@@ -95,6 +98,7 @@ export default function LoginForm() {
           secureTextEntry
           editable={!loading}
           placeholder="**********"
+          accessibilityLabel="Password"
         />
       </View>
 
@@ -106,9 +110,14 @@ export default function LoginForm() {
           pressed && styles.pressed,
           loading && styles.disabled,
         ]}
+        accessibilityRole="button"
+        accessibilityLabel="Sign in"
       >
         {loading ? (
-          <ActivityIndicator color="#589572" />
+          <ActivityIndicator
+            color="#589572"
+            accessibilityLabel="Loading indicator"
+          />
         ) : (
           <Text style={styles.btnText}>Sign In</Text>
         )}
@@ -133,7 +142,11 @@ export default function LoginForm() {
 
       <View style={styles.registerInfoContainer}>
         <Text style={styles.registerInfoText}>No account yet?</Text>
-        <Pressable onPress={() => goTo("Register")}>
+        <Pressable
+          onPress={() => goTo("Register")}
+          accessibilityRole="button"
+          accessibilityLabel="Go to register"
+        >
           <Text style={styles.registerBtnText}>Create one here</Text>
         </Pressable>
       </View>

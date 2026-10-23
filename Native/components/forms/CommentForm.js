@@ -79,9 +79,15 @@ export default function CommentForm({ media, commentCreated }) {
             maxLength={500}
             placeholder="Write here.."
             textAlignVertical="top"
+            accessibilityLabel="Comment"
           />
         </View>
-        <Text style={styles.lettersCount}>{comment.length}/500</Text>
+        <Text
+          style={styles.lettersCount}
+          accessibilityLabel={`${comment.length} of 500 characters used`}
+        >
+          {comment.length}/500
+        </Text>
       </View>
 
       <Pressable
@@ -92,6 +98,8 @@ export default function CommentForm({ media, commentCreated }) {
           !comment.trim() && styles.disabledBtn,
           pressed && styles.pressed,
         ]}
+        accessibilityRole="button"
+        accessibilityLabel="Post comment"
       >
         <Text style={styles.submitText}>Post Comment</Text>
       </Pressable>

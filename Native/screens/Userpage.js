@@ -57,7 +57,9 @@ export default function Userpage() {
 
       <View style={styles.userInfoContainer}>
         <View>
-          <Text style={styles.title}>User Information</Text>
+          <Text style={styles.title} accessibilityRole="header">
+            User Information
+          </Text>
           <View style={styles.border} />
         </View>
 
@@ -67,6 +69,8 @@ export default function Userpage() {
             value={user?.userId}
             style={[styles.userInput, styles.disabled]}
             editable={false}
+            accessibilityState={{ disabled: true }}
+            accessibilityLabel="User ID"
           />
         </View>
 
@@ -77,6 +81,8 @@ export default function Userpage() {
             onChangeText={setUsername}
             style={[styles.userInput, !isEditable && styles.disabled]}
             editable={isEditable}
+            accessibilityState={{ disabled: !isEditable }}
+            accessibilityLabel="Username"
           />
         </View>
 
@@ -88,6 +94,8 @@ export default function Userpage() {
             style={[styles.userInput, !isEditable && styles.disabled]}
             editable={isEditable}
             keyboardType="email-address"
+            accessibilityState={{ disabled: !isEditable }}
+            accessibilityLabel="Email address"
           />
         </View>
 
@@ -97,6 +105,8 @@ export default function Userpage() {
             value={user?.accountType}
             style={[styles.userInput, styles.disabled]}
             editable={false}
+            accessibilityState={{ disabled: true }}
+            accessibilityLabel="Account type"
           />
         </View>
 
@@ -111,6 +121,8 @@ export default function Userpage() {
                 pressed && styles.pressed,
               ]}
               disabled={isEditable}
+              accessibilityRole="button"
+              accessibilityLabel="Edit user information"
             >
               <Text
                 style={[styles.buttonText, isEditable && styles.disabledText]}
@@ -126,6 +138,8 @@ export default function Userpage() {
                 pressed && styles.pressed,
               ]}
               disabled={!isEditable}
+              accessibilityRole="button"
+              accessibilityLabel="Save user information"
             >
               <Text
                 style={[styles.buttonText, !isEditable && styles.disabledText]}

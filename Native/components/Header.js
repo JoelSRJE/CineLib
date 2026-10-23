@@ -71,6 +71,10 @@ export default function Header() {
               }
             }}
             style={({ pressed }) => [pressed && styles.pressed]}
+            accessibilityRole="button"
+            accessibilityLabel={
+              isLoggedIn ? "Go to homepage" : "Go to welcome page"
+            }
           >
             <Image source={CineLib} style={styles.logo} contentFit="contain" />
           </Pressable>
@@ -82,6 +86,8 @@ export default function Header() {
                 pressed && styles.pressed,
                 styles.searchBtn,
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Search movies and series"
             >
               <Text>
                 <MagnifyingGlassIcon size={24} color="#589572" />
@@ -109,6 +115,8 @@ export default function Header() {
                       styles.button,
                       pressed && styles.pressed,
                     ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={option.name}
                   >
                     <Icon size={30} />
                   </Pressable>
@@ -125,6 +133,8 @@ export default function Header() {
                       styles.button,
                       pressed && styles.pressed,
                     ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={option.name}
                   >
                     <Icon size={30} />
                   </Pressable>

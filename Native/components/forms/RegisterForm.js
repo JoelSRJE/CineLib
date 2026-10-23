@@ -65,7 +65,9 @@ export default function RegisterForm() {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Register</Text>
+        <Text style={styles.title} accessibilityRole="header">
+          Register
+        </Text>
         <NotePencilIcon size={30} color="#589572" />
       </View>
 
@@ -77,7 +79,8 @@ export default function RegisterForm() {
           onChangeText={setUsername}
           editable={!loading}
           placeholder="Choose a username"
-        ></TextInput>
+          accessibilityLabel="Username"
+        />
       </View>
 
       <View style={styles.inputContainer}>
@@ -89,7 +92,8 @@ export default function RegisterForm() {
           keyboardType="email-address"
           editable={!loading}
           placeholder="Enter your email"
-        ></TextInput>
+          accessibilityLabel="Email"
+        />
       </View>
 
       <View style={styles.inputContainer}>
@@ -101,6 +105,7 @@ export default function RegisterForm() {
           secureTextEntry
           editable={!loading}
           placeholder="Choose a password"
+          accessibilityLabel="Password"
         ></TextInput>
       </View>
 
@@ -112,9 +117,14 @@ export default function RegisterForm() {
           pressed && styles.pressed,
           loading && styles.disabled,
         ]}
+        accessibilityRole="button"
+        accessibilityLabel="Register account"
       >
         {loading ? (
-          <ActivityIndicator color="#589572" />
+          <ActivityIndicator
+            color="#589572"
+            accessibilityLabel="Loading indicator"
+          />
         ) : (
           <Text style={styles.btnText}>Register</Text>
         )}
@@ -130,7 +140,11 @@ export default function RegisterForm() {
 
       <View style={styles.registerInfoContainer}>
         <Text style={styles.registerInfoText}>Got an account already?</Text>
-        <Pressable onPress={() => goTo("Login")}>
+        <Pressable
+          onPress={() => goTo("Login")}
+          accessibilityRole="button"
+          accessibilityLabel="Go to sign in"
+        >
           <Text style={styles.registerBtnText}>Sign In</Text>
         </Pressable>
       </View>

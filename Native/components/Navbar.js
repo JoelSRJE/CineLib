@@ -70,7 +70,13 @@ export default function Navbar() {
       {navItems.map((item, index) => (
         <View key={item.id} style={styles.navItemContainer}>
           {index === navItems.length - 2 && (
-            <Text style={styles.separator}>|</Text>
+            <Text
+              style={styles.separator}
+              accessibilityElementsHidden
+              importantForAccessibility="no"
+            >
+              |
+            </Text>
           )}
 
           <NavItem item={item} onPress={() => goTo(item)} />

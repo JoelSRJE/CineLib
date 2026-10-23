@@ -39,7 +39,11 @@ function AppNav() {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#589572" />
+        <ActivityIndicator
+          size="large"
+          color="#589572"
+          accessibilityLabel="Loading indicator"
+        />
       </View>
     );
   }

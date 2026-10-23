@@ -11,7 +11,9 @@ export default function LandingPage({ navigation }) {
       <View style={styles.contentContainer}>
         <Image source={CineLib} style={styles.logo} contentFit="contain" />
 
-        <Text style={styles.title}>Welcome to CineLib</Text>
+        <Text style={styles.title} accessibilityRole="header">
+          Welcome to CineLib
+        </Text>
 
         <Text style={styles.description}>
           Discover movies, explore ratings, comment on specific films or series
@@ -24,6 +26,8 @@ export default function LandingPage({ navigation }) {
             pressed && styles.pressed,
           ]}
           onPress={() => navigation.navigate("Register")}
+          accessibilityRole="button"
+          accessibilityLabel="Go to registration"
         >
           <Text style={styles.registerBtnText}>Register Account</Text>
         </Pressable>
@@ -31,6 +35,8 @@ export default function LandingPage({ navigation }) {
         <Pressable
           style={({ pressed }) => [styles.loginBtn, pressed && styles.pressed]}
           onPress={() => navigation.navigate("Login")}
+          accessibilityRole="button"
+          accessibilityLabel="Go to sign in"
         >
           <Text style={styles.loginBtnText}>Sign In</Text>
         </Pressable>

@@ -65,7 +65,7 @@ export default function CineDetailpage({ route }) {
     <View style={styles.container}>
       <GridBackground />
 
-      <Text style={styles.screenTitle}>
+      <Text style={styles.screenTitle} accessibilityRole="header">
         {mediaType === "tv" ? "TV Serie" : "Movie"}
       </Text>
 
@@ -79,6 +79,8 @@ export default function CineDetailpage({ route }) {
                   styles.favContainer,
                   pressed && styles.pressed,
                 ]}
+                accessibilityRole="button"
+                accessibilityLabel="Add it to favourite list"
               >
                 <HeartIcon size={18} color="#fc4848" weight="fill" />
               </Pressable>
@@ -89,6 +91,7 @@ export default function CineDetailpage({ route }) {
                   }}
                   style={styles.poster}
                   contentFit="cover"
+                  accessibilityLabel={`Poster for ${details.title || details.name}`}
                 />
               </View>
               <View style={styles.rightSide}>
@@ -135,7 +138,9 @@ export default function CineDetailpage({ route }) {
               </View>
             </View>
             <View style={styles.bottomSection}>
-              <Text style={styles.descTitle}>Description</Text>
+              <Text style={styles.descTitle} accessibilityRole="header">
+                Description
+              </Text>
               <Text style={styles.descText}>
                 {details.overview || "No description available..."}
               </Text>
@@ -147,6 +152,8 @@ export default function CineDetailpage({ route }) {
                 styles.shareButton,
                 pressed && styles.pressed,
               ]}
+              accessibilityRole="button"
+              accessibilityLabel="Share this movie or series"
             >
               <Text style={styles.shareText}>Share</Text>
             </Pressable>

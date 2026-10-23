@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import LoginForm from "../components/forms/LoginForm";
 import GridBackground from "../components/GridBackground";
 

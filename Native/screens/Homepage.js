@@ -4,7 +4,6 @@ import {
   Text,
   View,
   ActivityIndicator,
-  Pressable,
 } from "react-native";
 import GridBackground from "../components/GridBackground";
 import NewsHero from "../components/NewsHero";
@@ -78,7 +77,7 @@ export default function Homepage() {
     <ScrollView style={styles.container}>
       <GridBackground />
 
-      <View style={styles.carouselContainer}>
+      <View style={styles.carouselContainer} accessibilityRole="header">
         <NewsHero
           newMovies={newMovies}
           mediaType="movie"
@@ -87,7 +86,9 @@ export default function Homepage() {
       </View>
 
       <View style={styles.carouselWrapper}>
-        <Text style={styles.carouselTitle}>Popular Movies</Text>
+        <Text style={styles.carouselTitle} accessibilityRole="header">
+          Popular Movies
+        </Text>
         <Carousel
           media={popularMovies}
           mediaType="movie"
@@ -96,7 +97,9 @@ export default function Homepage() {
       </View>
 
       <View style={styles.carouselWrapper}>
-        <Text style={styles.carouselTitle}>Popular Series</Text>
+        <Text style={styles.carouselTitle} accessibilityRole="header">
+          Popular Series
+        </Text>
         <Carousel
           media={popularSeries}
           mediaType="tv"
@@ -105,7 +108,9 @@ export default function Homepage() {
       </View>
 
       <View style={styles.carouselWrapper}>
-        <Text style={styles.carouselTitle}>Trending Daily</Text>
+        <Text style={styles.carouselTitle} accessibilityRole="header">
+          Trending Daily
+        </Text>
         <Carousel media={trendingDaily} errorMessage={errorMessage} />
       </View>
 

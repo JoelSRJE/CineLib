@@ -100,7 +100,7 @@ export default function Contentpage({ route }) {
       <GridBackground />
 
       <View>
-        <Text style={styles.title}>
+        <Text style={styles.title} accessibilityRole="header">
           {mediaType === "movie" ? "MOVIES" : "SERIES"}
         </Text>
         <View style={styles.border} />
@@ -126,6 +126,10 @@ export default function Contentpage({ route }) {
               ]}
               onPress={loadMore}
               disabled={isLoadingMore}
+              accessibilityRole="button"
+              accessibilityLabel={
+                mediaType === "movie" ? "Show more movies" : "Show more series"
+              }
             >
               {isLoadingMore ? (
                 <ActivityIndicator color="#589572" />

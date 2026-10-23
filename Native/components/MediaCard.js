@@ -25,6 +25,8 @@ export default function MediaCard({ media, mediaType }) {
         })
       }
       style={styles.cardWrapper}
+      accessibilityRole="button"
+      accessibilityLabel={`Open details for ${title}`}
     >
       <View style={styles.cardContainer}>
         {media.poster_path ? (
@@ -51,7 +53,12 @@ export default function MediaCard({ media, mediaType }) {
         <Text style={styles.rating}>{media.vote_average.toFixed(1)}</Text>
       </View>
 
-      <Pressable onPress={saveToFavourite} style={styles.favContainer}>
+      <Pressable
+        onPress={saveToFavourite}
+        style={styles.favContainer}
+        accessibilityRole="button"
+        accessibilityLabel={`Add or remove ${title} from favourites`}
+      >
         <HeartIcon size={14} color="#fc4848" weight="fill" />
       </Pressable>
 
